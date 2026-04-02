@@ -122,26 +122,7 @@ const Analyze = () => {
         </button>
 
         {/* Info Cards */}
-        <div className="mt-8 grid md:grid-cols-2 gap-4">
-          <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-xl">📦</span>
-              <h3 className="font-semibold text-gray-800">Repository Analysis</h3>
-            </div>
-            <p className="text-sm text-gray-500">
-              Deep code review, architecture insights, dependency health, security scan, test coverage estimation, and detailed quality metrics.
-            </p>
-          </div>
-          <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-xl">🌐</span>
-              <h3 className="font-semibold text-gray-800">Live Link Analysis</h3>
-            </div>
-            <p className="text-sm text-gray-500">
-              Performance metrics, load time, asset size, SEO, accessibility, and frontend framework detection.
-            </p>
-          </div>
-        </div>
+  
 
          <div className="mt-6 text-center">
           <p className="text-xs text-gray-400">Try an example:</p>
