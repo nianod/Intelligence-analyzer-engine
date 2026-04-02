@@ -1,11 +1,9 @@
-// app/page.tsx
 import Link from 'next/link';
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white text-gray-800">
-      {/* Navigation - minimal */}
-      <nav className="border-b border-gray-100">
+       <nav className="border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 bg-green-600 rounded-lg flex items-center justify-center">
@@ -24,11 +22,11 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
+     
       <section className="max-w-5xl mx-auto px-6 py-20 md:py-28">
         <div className="text-center">
-          <div className="inline-block mb-4 px-3 py-1 bg-green-50 rounded-full">
-            <span className="text-green-700 text-sm font-medium">AI-Powered Code Intelligence</span>
+          <div className="inline-block mb-4 px-3 py-1  rounded-full">
+            <span className="text-green-700 text-sm font-medium">Project Intelligence Engine</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 tracking-tight mb-6">
             Analyze your project like a{' '}
@@ -58,7 +56,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features Grid */}
+       
       <section className="max-w-6xl mx-auto px-6 py-16 border-t border-gray-100">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Deep analysis, clear insights</h2>
@@ -68,7 +66,7 @@ export default function LandingPage() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Card 1 */}
+          
           <div className="border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
               <svg className="w-6 h-6 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,8 +140,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-      {/* How it works + Report Preview */}
+ 
       <section id="how-it-works" className="bg-gray-50 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -156,7 +153,7 @@ export default function LandingPage() {
                 <span className="text-green-700 text-2xl font-bold">1</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Paste repository URL</h3>
-              <p className="text-gray-500">Enter any public GitHub repo — no auth required</p>
+              <p className="text-gray-500">Enter any public GitHub repo, no auth required</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -174,7 +171,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Card preview */}
+          
           <div className="max-w-3xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="bg-gray-50 px-6 py-3 border-b border-gray-200 flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
@@ -197,7 +194,7 @@ export default function LandingPage() {
                   <p className="text-sm text-gray-500">Vibe Coding Score</p>
                   <p className="text-2xl font-bold text-gray-800">78<span className="text-base text-gray-400">/100</span></p>
                   <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1"><div className="bg-green-600 h-1.5 rounded-full" style={{ width: '78%' }}></div></div>
-                  <p className="text-xs text-gray-500 mt-1">Mixed — moderate duplication</p>
+                  <p className="text-xs text-gray-500 mt-1">Mixed, moderate duplication</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Hireability Score</p>
@@ -206,10 +203,10 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">✅ Good README</span>
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">⚠️ 3 secrets exposed</span>
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">📦 22 dependencies</span>
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">🚀 React/Next.js</span>
+                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs"> Good README</span>
+                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">  3 secrets exposed</span>
+                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">  22 dependencies</span>
+                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">  React/Next.js</span>
               </div>
               <button className="mt-5 w-full border border-green-600 text-green-700 py-2 rounded-lg font-medium hover:bg-green-50 transition-colors cursor-pointer">
                 View full report 
@@ -218,8 +215,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-      {/* For whom + CTA */}
+ 
       <section className="max-w-6xl mx-auto px-6 py-20">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
@@ -227,19 +223,19 @@ export default function LandingPage() {
             <ul className="space-y-3 text-gray-700">
               <li className="flex gap-3 items-start">
                 <span className="text-green-600 text-xl">✓</span> 
-                <span><strong>Students & junior devs</strong> — Get actionable feedback to level up portfolio projects</span>
+                <span><strong>Students & junior devs</strong> - Get actionable feedback to level up portfolio projects</span>
               </li>
               <li className="flex gap-3 items-start">
                 <span className="text-green-600 text-xl">✓</span> 
-                <span><strong>Recruiters & tech leads</strong> — Instantly evaluate code quality without manual review</span>
+                <span><strong>Recruiters & tech leads</strong> - Instantly evaluate code quality without manual review</span>
               </li>
               <li className="flex gap-3 items-start">
                 <span className="text-green-600 text-xl">✓</span> 
-                <span><strong>Open source maintainers</strong> — Identify structural issues and security blindspots</span>
+                <span><strong>Open source maintainers</strong> - Identify structural issues and security blindspots</span>
               </li>
               <li className="flex gap-3 items-start">
                 <span className="text-green-600 text-xl">✓</span> 
-                <span><strong>Agency/outsourcing reviews</strong> — Standardized quality checks before delivery</span>
+                <span><strong>Agency/outsourcing reviews</strong> - Standardized quality checks before delivery</span>
               </li>
             </ul>
             <div className="mt-8">
@@ -247,7 +243,7 @@ export default function LandingPage() {
                 href="/get-started" 
                 className="inline-block px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-colors cursor-pointer"
               >
-                Analyze your first project →
+                Analyze your first project 
               </Link>
             </div>
           </div>
@@ -259,12 +255,12 @@ export default function LandingPage() {
               <p className="font-medium text-gray-800">Instant feedback on portfolio quality</p>
             </div>
             <p className="text-gray-600 mb-3">
-              “I used Project Analyzer before applying to backend roles — it caught 3 hardcoded secrets and suggested better folder structure. My hireability score went from 68 to 89 after fixes. Landed 2 interviews!”
+              “I used Project Analyzer before applying to backend roles, it caught 3 hardcoded secrets and suggested better folder structure. My hireability score went from 68 to 89 after fixes. Landed 2 interviews!”
             </p>
             <div className="flex items-center gap-3 mt-4">
               <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
               <div>
-                <p className="text-sm font-semibold text-gray-800">— Priya K.</p>
+                <p className="text-sm font-semibold text-gray-800">Priya K.</p>
                 <p className="text-xs text-gray-500">Full-stack developer</p>
               </div>
             </div>
@@ -272,8 +268,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* feature badges: repo + live mode */}
-      <div className="border-t border-gray-100 py-10">
+       <div className="border-t border-gray-100 py-10">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <div className="flex flex-wrap justify-center gap-5 text-sm">
             <div className="flex items-center gap-1 text-gray-600"><span className="text-green-600 font-bold">✓</span> GitHub Repository (Full analysis)</div>
@@ -284,19 +279,16 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="border-t border-gray-200 bg-white py-10">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 bg-green-600 rounded-md flex items-center justify-center">
               <span className="text-white text-[11px] font-bold">PA</span>
             </div>
-            <span className="text-gray-500 text-sm">© 2025 Project Analyzer — engineering quality insights</span>
+            <span className="text-gray-500 text-sm">© 2026 Project Analyzer. engineering quality insights</span>
           </div>
           <div className="flex gap-6 text-sm text-gray-500">
-            <Link href="/privacy" className="hover:text-green-700 cursor-pointer">Privacy</Link>
-            <Link href="/terms" className="hover:text-green-700 cursor-pointer">Terms</Link>
-            <Link href="/docs" className="hover:text-green-700 cursor-pointer">API docs</Link>
+             Developed by Arnold
           </div>
         </div>
       </footer>
