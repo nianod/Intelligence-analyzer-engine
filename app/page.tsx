@@ -13,7 +13,7 @@ export default function LandingPage() {
           </div>
           <div className="flex gap-4">
             <Link 
-              href="/get-started" 
+              href="/analyse" 
               className="px-5 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors cursor-pointer"
             >
               Get Started
