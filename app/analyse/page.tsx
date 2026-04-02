@@ -14,8 +14,14 @@ const Analyze = () => {
     ]
 
     return(
-        <div>
-
+        <div className="min-h-screen p-2">
+           <div className="border border-amber-400">
+              {tabs.map((tab) => (
+                <div key={tab.id}>
+                    <div>{tab.label}</div>
+                </div>
+              ))}
+           </div>
         </div>
     )
 }
