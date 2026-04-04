@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Search, Package, Globe, CheckCircle2, AlertTriangle, Rocket, Check, User } from 'lucide-react';
 
 export default function LandingPage() {
   return (
@@ -41,7 +42,7 @@ export default function LandingPage() {
               href="/analyse" 
               className="px-8 py-3 bg-green-600 text-white rounded-xl font-medium text-lg hover:bg-green-700 transition-all cursor-pointer shadow-sm"
             >
-              Start analyzing →
+              Start analyzing 
             </Link>
             <Link 
               href="#how-it-works" 
@@ -50,8 +51,9 @@ export default function LandingPage() {
               See how it works
             </Link>
           </div>
-          <p className="mt-6 text-sm text-gray-500">
-            🔍 No signup required • Free repository analysis
+          <p className="mt-6 text-sm text-gray-500 flex items-center justify-center gap-1">
+            <Search className="h-3.5 w-3.5 text-gray-400" />
+            No signup required • Free repository analysis
           </p>
         </div>
       </section>
@@ -61,7 +63,7 @@ export default function LandingPage() {
         <div className="grid md:grid-cols-2 gap-5">
           <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-2xl">📦</span>
+              <Package className="w-6 h-6 text-gray-600" />
               <h3 className="font-semibold text-gray-800">Repository Analysis</h3>
             </div>
             <p className="text-sm text-gray-500 leading-relaxed">
@@ -71,7 +73,7 @@ export default function LandingPage() {
           </div>
           <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-2xl">🌐</span>
+              <Globe className="w-6 h-6 text-gray-600" />
               <h3 className="font-semibold text-gray-800">Live Link Analysis</h3>
             </div>
             <p className="text-sm text-gray-500 leading-relaxed">
@@ -230,10 +232,18 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">✅ Good README</span>
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">⚠️ 3 secrets exposed</span>
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">📦 22 dependencies</span>
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">🚀 React/Next.js</span>
+                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs flex items-center gap-1">
+                  <CheckCircle2 className="h-3 w-3 text-green-600" /> Good README
+                </span>
+                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs flex items-center gap-1">
+                  <AlertTriangle className="h-3 w-3 text-yellow-500" /> 3 secrets exposed
+                </span>
+                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs flex items-center gap-1">
+                  <Package className="h-3 w-3 text-gray-500" /> 22 dependencies
+                </span>
+                <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs flex items-center gap-1">
+                  <Rocket className="h-3 w-3 text-blue-500" /> React/Next.js
+                </span>
               </div>
               <button className="mt-5 w-full border border-green-600 text-green-700 py-2 rounded-lg font-medium hover:bg-green-50 transition-colors cursor-pointer">
                 View full report →
@@ -250,19 +260,19 @@ export default function LandingPage() {
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Built for developers, recruiters, and teams</h2>
             <ul className="space-y-3 text-gray-700">
               <li className="flex gap-3 items-start">
-                <span className="text-green-600 text-xl">✓</span> 
+                <Check className="text-green-600 h-5 w-5 mt-0.5 shrink-0" />
                 <span><strong>Students & junior devs</strong> - Get actionable feedback to level up portfolio projects</span>
               </li>
               <li className="flex gap-3 items-start">
-                <span className="text-green-600 text-xl">✓</span> 
+                <Check className="text-green-600 h-5 w-5 mt-0.5 shrink-0" />
                 <span><strong>Recruiters & tech leads</strong> - Instantly evaluate code quality without manual review</span>
               </li>
               <li className="flex gap-3 items-start">
-                <span className="text-green-600 text-xl">✓</span> 
+                <Check className="text-green-600 h-5 w-5 mt-0.5 shrink-0" />
                 <span><strong>Open source maintainers</strong> - Identify structural issues and security blindspots</span>
               </li>
               <li className="flex gap-3 items-start">
-                <span className="text-green-600 text-xl">✓</span> 
+                <Check className="text-green-600 h-5 w-5 mt-0.5 shrink-0" />
                 <span><strong>Agency/outsourcing reviews</strong> - Standardized quality checks before delivery</span>
               </li>
             </ul>
@@ -271,22 +281,24 @@ export default function LandingPage() {
                 href="/analyse" 
                 className="inline-block px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-colors cursor-pointer"
               >
-                Analyze your first project →
+                Analyze your first project 
               </Link>
             </div>
           </div>
           <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-green-700 font-bold text-xl">“</span>
+                <span className="text-green-700 font-bold text-xl">"</span>
               </div>
               <p className="font-medium text-gray-800">Instant feedback on portfolio quality</p>
             </div>
             <p className="text-gray-600 mb-3">
-              “I used Project Analyzer before applying to backend roles, it caught 3 hardcoded secrets and suggested better folder structure. My hireability score went from 68 to 89 after fixes. Landed 2 interviews!”
+              "I used Project Analyzer before applying to backend roles, it caught 3 hardcoded secrets and suggested better folder structure. My hireability score went from 68 to 89 after fixes. Landed 2 interviews!"
             </p>
             <div className="flex items-center gap-3 mt-4">
-              <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+              <div className="w-8 h-8 bg-gray-300 rounded-full flex justify-center items-center">
+                <User />
+              </div>
               <div>
                 <p className="text-sm font-semibold text-gray-800">Priya K.</p>
                 <p className="text-xs text-gray-500">Full-stack developer</p>
@@ -300,10 +312,10 @@ export default function LandingPage() {
       <div className="border-t border-gray-100 py-10">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <div className="flex flex-wrap justify-center gap-5 text-sm">
-            <div className="flex items-center gap-1 text-gray-600"><span className="text-green-600 font-bold">✓</span> GitHub Repository (Full analysis)</div>
-            <div className="flex items-center gap-1 text-gray-600"><span className="text-green-600 font-bold">✓</span> Live URL (Frontend & performance)</div>
-            <div className="flex items-center gap-1 text-gray-600"><span className="text-green-600 font-bold">✓</span> No credit card required</div>
-            <div className="flex items-center gap-1 text-gray-600"><span className="text-green-600 font-bold">✓</span> Free public reports</div>
+            <div className="flex items-center gap-1 text-gray-600"><Check className="h-4 w-4 text-green-600 font-bold" /> GitHub Repository (Full analysis)</div>
+            <div className="flex items-center gap-1 text-gray-600"><Check className="h-4 w-4 text-green-600 font-bold" /> Live URL (Frontend & performance)</div>
+            <div className="flex items-center gap-1 text-gray-600"><Check className="h-4 w-4 text-green-600 font-bold" /> No credit card required</div>
+            <div className="flex items-center gap-1 text-gray-600"><Check className="h-4 w-4 text-green-600 font-bold" /> Free public reports</div>
           </div>
         </div>
       </div>
