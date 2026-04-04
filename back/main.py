@@ -1,4 +1,8 @@
 from fastapi import FastAPI
-import os
+ 
 
 app = FastAPI()
+
+@app.get('/')
+async def landing():
+    return{"message": "Hello from FastAPI"}
