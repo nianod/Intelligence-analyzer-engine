@@ -200,7 +200,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Report Preview */}
+     
           <div className="max-w-3xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="bg-gray-50 px-6 py-3 border-b border-gray-200 flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
@@ -253,7 +253,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Built For Section */}
+   
       <section className="max-w-6xl mx-auto px-6 py-20">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
@@ -277,6 +277,7 @@ export default function LandingPage() {
               </li>
             </ul>
             <div className="mt-8">
+
               <Link 
                 href="/analyse" 
                 className="inline-block px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-colors cursor-pointer"
