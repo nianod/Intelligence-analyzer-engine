@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Search, Package, Globe, CheckCircle2, AlertTriangle, Rocket, Check, User } from 'lucide-react';
+import { Search, Package, Globe, CheckCircle2, AlertTriangle, Rocket, Check, User } from 'lucide-react'
+
 
 export default function LandingPage() {
   return (
@@ -23,7 +24,7 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
+    
       <section className="max-w-5xl mx-auto px-6 py-20 md:py-28">
         <div className="text-center">
           <div className="inline-block mb-4 px-3 py-1 rounded-full">
