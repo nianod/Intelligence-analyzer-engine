@@ -27,7 +27,6 @@ async def landing():
  
 @app.get("/repo/{owner}/{repo}")
 async def get_repo_details(owner: str, repo: str, token: str = Header(...)):
-    """Fetch description, stars, forks, and language."""
     async with httpx.AsyncClient() as client:
         res = await client.get(f"{GITHUB_API}/repos/{owner}/{repo}", headers=get_headers(token))
         if res.status_code != 200:
@@ -35,14 +34,51 @@ async def get_repo_details(owner: str, repo: str, token: str = Header(...)):
         
         data = res.json()
         return {
+            # Basic info
+            "id": data["id"],
             "name": data["name"],
+            "full_name": data["full_name"],
             "description": data["description"],
-            "stars": data["stargazers_count"],
-            "forks": data["forks_count"],
-            "language": data["language"],
-            "url": data["html_url"]
-        }
+            "url": data["html_url"],
+            "private": data["private"],
+            "fork": data["fork"],
 
+            # Stats
+            "stars": data["stargazers_count"],
+            "watchers": data["watchers_count"],
+            "forks": data["forks_count"],
+            "open_issues": data["open_issues_count"],
+            "size_kb": data["size"],
+
+            # Language & topics
+            "language": data["language"],
+            "topics": data["topics"],
+
+            # Dates
+            "created_at": data["created_at"],
+            "updated_at": data["updated_at"],
+            "pushed_at": data["pushed_at"],
+
+            # Owner
+            "owner": {
+                "username": data["owner"]["login"],
+                "avatar": data["owner"]["avatar_url"],
+                "profile": data["owner"]["html_url"],
+                "type": data["owner"]["type"],  # User or Organization
+            },
+
+            # Repo settings
+            "default_branch": data["default_branch"],
+            "has_issues": data["has_issues"],
+            "has_wiki": data["has_wiki"],
+            "has_projects": data["has_projects"],
+            "has_downloads": data["has_downloads"],
+            "archived": data["archived"],
+            "disabled": data["disabled"],
+
+            # License
+            "license": data["license"]["name"] if data.get("license") else None,
+        }
 @app.patch("/repo/{owner}/{repo}")
 async def update_repo(owner: str, repo: str, details: RepoUpdate, token: str = Header(...)):
     """Update repository description or settings."""
