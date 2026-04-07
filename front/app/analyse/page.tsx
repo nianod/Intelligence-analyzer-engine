@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { useState } from "react"
-import AnalysisResult from "../components/AnalysisResult"
+ 
 
 const Analyze = () => {
   const [liveLink, setLiveLink] = useState<string>("")
@@ -128,8 +128,8 @@ const Analyze = () => {
             )}
           </button>
 
-          {/* Results Section - Only appears after analysis completes */}
-          {showResults && <AnalysisResult />}
+          {/* Results Section - Only appears after analysis completes
+          {showResults && <AnalysisResult />} */}
 
           {/* Info Cards */}
           <div className="mt-8 grid md:grid-cols-2 gap-4">
