@@ -2,8 +2,17 @@ from fastapi import FastAPI, HTTPException, Header, Body
 import httpx
 from pydantic import BaseModel
 from typing import Optional
+from fastapi .middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['http://localhost:3000'],
+    allow_credentials=False,
+    allow_methods=['*'],
+    allow_headers=['*']
+)
 
 GITHUB_API = "https://api.github.com"
 
