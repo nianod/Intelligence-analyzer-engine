@@ -1,57 +1,100 @@
 "use client"
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, ChevronDown, ChevronUp, BarChart3, Globe, GitBranch, Shield, FileText, Layers } from "lucide-react"
 import { useState } from "react"
 import { RepoDetails } from "../components/RepoDetails"
 import { useRepo } from "../hooks/useRepo"
 
+// --- Accordion Item ---
+function AccordionItem({
+  icon,
+  label,
+  isOpen,
+  onToggle,
+  children,
+  disabled = false,
+}: {
+  icon: React.ReactNode
+  label: string
+  isOpen: boolean
+  onToggle: () => void
+  children?: React.ReactNode
+  disabled?: boolean
+}) {
+  return (
+    <div className="border-b border-gray-100 last:border-b-0">
+      <button
+        onClick={onToggle}
+        disabled={disabled}
+        className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors ${
+          disabled
+            ? "opacity-40 cursor-not-allowed"
+            : "hover:bg-gray-50 cursor-pointer"
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          <span className="text-gray-500">{icon}</span>
+          <span className="font-medium text-gray-800">{label}</span>
+          {disabled && (
+            <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">Coming soon</span>
+          )}
+        </div>
+        {!disabled && (
+          isOpen
+            ? <ChevronUp className="w-4 h-4 text-gray-400" />
+            : <ChevronDown className="w-4 h-4 text-gray-400" />
+        )}
+      </button>
+      {isOpen && !disabled && (
+        <div className="px-5 pb-5 pt-1">
+          {children}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// --- Main Analyze Page ---
 const Analyze = () => {
-  const [liveLink, setLiveLink] = useState<string>("")
-  const [repoUrl, setRepoUrl] = useState<string>("")
-  const [activeTab, setActiveTab] = useState<number>(1)
-  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false)
-  
-  // Use the hook to get repo data fetching capabilities
+  const [liveLink, setLiveLink] = useState("")
+  const [repoUrl, setRepoUrl] = useState("")
+  const [activeTab, setActiveTab] = useState(1)
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [openSection, setOpenSection] = useState<string | null>("repo-details")
+
   const { data, loading, error, analyze } = useRepo()
 
   const parseGithubUrl = (url: string) => {
     try {
       const urlObj = new URL(url)
-      const parts = urlObj.pathname.split('/').filter(Boolean)
-      if (parts.length >= 2) {
-        return { owner: parts[0], repo: parts[1] }
-      }
-    } catch (e) {
-      return null
-    }
+      const parts = urlObj.pathname.split("/").filter(Boolean)
+      if (parts.length >= 2) return { owner: parts[0], repo: parts[1] }
+    } catch {}
     return null
   }
 
   const handleAnalyze = async () => {
     const inputValue = activeTab === 1 ? liveLink : repoUrl
     if (!inputValue.trim()) return
-    
+
     if (activeTab === 2) {
-      // Parse GitHub URL
       const parsed = parseGithubUrl(inputValue)
-      if (!parsed) {
-        console.error("Invalid GitHub URL")
-        return
-      }
-      
+      if (!parsed) return
       setIsAnalyzing(true)
-      // Call the analyze function from the hook
       const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN || ""
       await analyze(parsed.owner, parsed.repo, token)
       setIsAnalyzing(false)
+      setOpenSection("repo-details") // auto-open on new result
     } else {
-      // Handle live link analysis
       setIsAnalyzing(true)
       setTimeout(() => {
-        console.log("Analyzing live link:", inputValue)
         setIsAnalyzing(false)
       }, 2000)
     }
+  }
+
+  const toggleSection = (id: string) => {
+    setOpenSection((prev) => (prev === id ? null : id))
   }
 
   const isValidInput = activeTab === 1 ? liveLink.trim() : repoUrl.trim()
@@ -61,29 +104,24 @@ const Analyze = () => {
       <Link href="/" className="flex text-gray-600 items-center gap-1 p-4 hover:text-green-600 transition-colors">
         <ArrowLeft size={18} /> Back
       </Link>
-      
+
       <div className="min-h-screen bg-white p-4 md:p-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-3">
+        <div className="max-w-3xl mx-auto">
+
+          {/* Title */}
+          <div className="text-center mb-6">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Analyze Your Project</h1>
             <p className="text-gray-500">Get instant insights on code quality, performance, and security</p>
           </div>
 
-          {/* Tab Buttons */}
-          <div className="flex border-b border-gray-200 gap-1">
-            {[
-              { id: 1, label: "Live Link" },
-              { id: 2, label: "Repository URL" }
-            ].map((tab) => (
+          {/* Tabs */}
+          <div className="flex border-b border-gray-200 gap-1 mb-4">
+            {[{ id: 1, label: "Live Link" }, { id: 2, label: "Repository URL" }].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => {
-                  setActiveTab(tab.id)
-                }}
+                onClick={() => setActiveTab(tab.id)}
                 className={`px-6 py-3 font-medium transition-all cursor-pointer relative ${
-                  activeTab === tab.id 
-                    ? "text-green-600" 
-                    : "text-gray-400 hover:text-gray-600"
+                  activeTab === tab.id ? "text-green-600" : "text-gray-400 hover:text-gray-600"
                 }`}
               >
                 {tab.label}
@@ -94,60 +132,50 @@ const Analyze = () => {
             ))}
           </div>
 
-          {/* Input Area */}
-          <div className="mt-4">
+          {/* Input */}
+          <div className="mb-4">
             {activeTab === 1 ? (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Live Website URL
-                </label>
-                <input 
-                  type="text" 
-                  placeholder="https://yourwebsite.com" 
+                <label className="block text-sm font-medium text-gray-700 mb-2">Live Website URL</label>
+                <input
+                  type="text"
+                  placeholder="https://yourwebsite.com"
                   value={liveLink}
                   onChange={(e) => setLiveLink(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                   onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                 />
-                <p className="mt-2 text-sm text-gray-400">
-                  📊 Limited analysis: Frontend, performance, SEO & tech detection
-                </p>
               </div>
             ) : (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  GitHub Repository URL
-                </label>
-                <input 
-                  type="text" 
-                  placeholder="https://github.com/username/repository" 
+                <label className="block text-sm font-medium text-gray-700 mb-2">GitHub Repository URL</label>
+                <input
+                  type="text"
+                  placeholder="https://github.com/username/repository"
                   value={repoUrl}
                   onChange={(e) => setRepoUrl(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                   onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                 />
-                <p className="mt-2 text-sm text-gray-400">
-                  🔍 Full analysis: Code quality, architecture, security, tests & more
-                </p>
               </div>
             )}
           </div>
 
           {/* Analyze Button */}
-          <button 
+          <button
             onClick={handleAnalyze}
             disabled={!isValidInput || isAnalyzing || loading}
-            className={`mt-4 w-full py-3 rounded-lg font-medium transition-all cursor-pointer ${
+            className={`w-full py-3 rounded-lg font-medium transition-all ${
               isValidInput && !isAnalyzing && !loading
-                ? "bg-green-600 text-white hover:bg-green-700 shadow-sm" 
+                ? "bg-green-600 text-white hover:bg-green-700 shadow-sm cursor-pointer"
                 : "bg-gray-400 text-white cursor-not-allowed opacity-45"
             }`}
           >
-            {(isAnalyzing || loading) ? (
+            {isAnalyzing || loading ? (
               <span className="flex items-center justify-center gap-2">
                 <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
                 Analyzing...
               </span>
@@ -156,64 +184,88 @@ const Analyze = () => {
             )}
           </button>
 
-          {/* Display Error */}
+          {/* Error */}
           {error && (
             <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-red-700 text-sm">{error}</p>
             </div>
           )}
 
-          {/* Display Repository Details - THIS IS WHERE THE HOOK DATA IS USED */}
+          {/* Results Accordion — only shown after a successful fetch */}
           {data && !loading && (
-            <RepoDetails data={data} />
+            <div className="mt-6 border border-gray-200 rounded-xl overflow-hidden">
+              <AccordionItem
+                icon={<BarChart3 className="w-4 h-4" />}
+                label="Repo Details"
+                isOpen={openSection === "repo-details"}
+                onToggle={() => toggleSection("repo-details")}
+              >
+                <RepoDetails data={data} />
+              </AccordionItem>
+
+              <AccordionItem
+                icon={<Shield className="w-4 h-4" />}
+                label="Vibe Coding Score"
+                isOpen={openSection === "vibe-score"}
+                onToggle={() => toggleSection("vibe-score")}
+                disabled
+              />
+
+              <AccordionItem
+                icon={<Layers className="w-4 h-4" />}
+                label="Architecture Analysis"
+                isOpen={openSection === "architecture"}
+                onToggle={() => toggleSection("architecture")}
+                disabled
+              />
+
+              <AccordionItem
+                icon={<Shield className="w-4 h-4" />}
+                label="Security & Secrets Scan"
+                isOpen={openSection === "security"}
+                onToggle={() => toggleSection("security")}
+                disabled
+              />
+
+              <AccordionItem
+                icon={<FileText className="w-4 h-4" />}
+                label="Documentation & Tests"
+                isOpen={openSection === "docs"}
+                onToggle={() => toggleSection("docs")}
+                disabled
+              />
+
+              <AccordionItem
+                icon={<Globe className="w-4 h-4" />}
+                label="Hireability Score"
+                isOpen={openSection === "hireability"}
+                onToggle={() => toggleSection("hireability")}
+                disabled
+              />
+
+              <AccordionItem
+                icon={<GitBranch className="w-4 h-4" />}
+                label="Tech Stack & Complexity"
+                isOpen={openSection === "techstack"}
+                onToggle={() => toggleSection("techstack")}
+                disabled
+              />
+            </div>
           )}
 
-          {/* Info Cards */}
-          <div className="mt-8 grid md:grid-cols-2 gap-4">
-            <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-xl">📦</span>
-                <h3 className="font-semibold text-gray-800">Repository Analysis</h3>
-              </div>
-              <p className="text-sm text-gray-500">
-                Deep code review, architecture insights, dependency health, security scan, test coverage estimation, and detailed quality metrics.
-              </p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-xl">🌐</span>
-                <h3 className="font-semibold text-gray-800">Live Link Analysis</h3>
-              </div>
-              <p className="text-sm text-gray-500">
-                Performance metrics, load time, asset size, SEO, accessibility, and frontend framework detection.
-              </p>
+          {/* Example links */}
+          <div className="mt-8 text-center">
+            <p className="text-xs text-gray-400">Try an example:</p>
+            <div className="flex flex-wrap gap-2 justify-center mt-2">
+              <button onClick={() => { setRepoUrl("https://github.com/vercel/next.js"); setActiveTab(2) }}
+                className="text-xs text-green-600 hover:text-green-700 underline cursor-pointer">Next.js</button>
+              <button onClick={() => { setRepoUrl("https://github.com/facebook/react"); setActiveTab(2) }}
+                className="text-xs text-green-600 hover:text-green-700 underline cursor-pointer">React</button>
+              <button onClick={() => { setLiveLink("https://vercel.com"); setActiveTab(1) }}
+                className="text-xs text-green-600 hover:text-green-700 underline cursor-pointer">Vercel</button>
             </div>
           </div>
 
-          {/* Example Buttons */}
-          <div className="mt-6 text-center">
-            <p className="text-xs text-gray-400">Try an example:</p>
-            <div className="flex flex-wrap gap-2 justify-center mt-2">
-              <button 
-                onClick={() => setRepoUrl("https://github.com/vercel/next.js")}
-                className="text-xs text-green-600 hover:text-green-700 underline cursor-pointer"
-              >
-                Next.js
-              </button>
-              <button 
-                onClick={() => setRepoUrl("https://github.com/facebook/react")}
-                className="text-xs text-green-600 hover:text-green-700 underline cursor-pointer"
-              >
-                React
-              </button>
-              <button 
-                onClick={() => setLiveLink("https://vercel.com")}
-                className="text-xs text-green-600 hover:text-green-700 underline cursor-pointer"
-              >
-                Vercel
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -221,3 +273,4 @@ const Analyze = () => {
 }
 
 export default Analyze
+
