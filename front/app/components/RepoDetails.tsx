@@ -1,40 +1,21 @@
 "use client"
 
-interface RepoDetailsProps {
-  data: {
-    id: number
-    name: string
-    full_name: string
-    description: string
-    url: string
-    private: boolean
-    fork: boolean
-    stars: number
-    watchers: number
-    forks: number
-    open_issues: number
-    size_kb: number
-    language: string
-    topics: string[]
-    created_at: string
-    updated_at: string
-    pushed_at: string
-    owner: {
-      username: string
-      avatar: string
-      profile: string
-      type: string
-    }
-    default_branch: string
-    has_issues: boolean
-    has_wiki: boolean
-    has_projects: boolean
-    has_downloads: boolean
-    archived: boolean
-    disabled: boolean
-    license: string | null
-  }
-}
+import type { RepoDetailsProps } from "../types/RepoDetails"
+import { 
+  BarChart3, 
+  Star, 
+  Eye, 
+  GitFork, 
+  AlertTriangle, 
+  Package, 
+  User, 
+  Tags, 
+  Info, 
+  FileText, 
+  BookOpen, 
+  LayoutGrid, 
+  Download 
+} from "lucide-react"
 
 export function RepoDetails({ data }: RepoDetailsProps) {
   const formatDate = (dateString: string) => {
@@ -92,35 +73,36 @@ export function RepoDetails({ data }: RepoDetailsProps) {
 
       {/* Stats Grid */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
-          <h3 className="font-semibold text-gray-900">📊 Repository Stats</h3>
+        <div className="bg-gray-50 px-6 py-3 border-b border-gray-200 flex items-center gap-2">
+          <BarChart3 className="w-5 h-5 text-gray-700" />
+          <h3 className="font-semibold text-gray-900">Repository Stats</h3>
         </div>
         <div className="p-6">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <div className="text-center">
-              <div className="text-2xl mb-1">⭐</div>
+              <Star className="w-6 h-6 mx-auto mb-1 text-yellow-500" />
               <p className="text-2xl font-bold text-gray-900">{data.stars}</p>
               <p className="text-xs text-gray-500 mt-1">Stars</p>
             </div>
             <div className="text-center">
-              <div className="text-2xl mb-1">👁️</div>
+              <Eye className="w-6 h-6 mx-auto mb-1 text-blue-500" />
               <p className="text-2xl font-bold text-gray-900">{data.watchers}</p>
               <p className="text-xs text-gray-500 mt-1">Watchers</p>
             </div>
             <div className="text-center">
-              <div className="text-2xl mb-1">🍴</div>
+              <GitFork className="w-6 h-6 mx-auto mb-1 text-purple-500" />
               <p className="text-2xl font-bold text-gray-900">{data.forks}</p>
               <p className="text-xs text-gray-500 mt-1">Forks</p>
             </div>
             <div className="text-center">
-              <div className="text-2xl mb-1">⚠️</div>
+              <AlertTriangle className="w-6 h-6 mx-auto mb-1 text-red-500" />
               <p className={`text-2xl font-bold ${data.open_issues > 0 ? 'text-red-600' : 'text-green-600'}`}>
                 {data.open_issues}
               </p>
               <p className="text-xs text-gray-500 mt-1">Open Issues</p>
             </div>
             <div className="text-center">
-              <div className="text-2xl mb-1">📦</div>
+              <Package className="w-6 h-6 mx-auto mb-1 text-green-500" />
               <p className="text-2xl font-bold text-gray-900">{formatSize(data.size_kb)}</p>
               <p className="text-xs text-gray-500 mt-1">Size</p>
             </div>
@@ -130,8 +112,9 @@ export function RepoDetails({ data }: RepoDetailsProps) {
 
       {/* Owner Information */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
-          <h3 className="font-semibold text-gray-900">👤 Owner Information</h3>
+        <div className="bg-gray-50 px-6 py-3 border-b border-gray-200 flex items-center gap-2">
+          <User className="w-5 h-5 text-gray-700" />
+          <h3 className="font-semibold text-gray-900">Owner Information</h3>
         </div>
         <div className="p-6">
           <div className="flex items-center gap-4">
@@ -158,8 +141,9 @@ export function RepoDetails({ data }: RepoDetailsProps) {
       {/* Topics */}
       {data.topics.length > 0 && (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
-            <h3 className="font-semibold text-gray-900">🏷️ Topics</h3>
+          <div className="bg-gray-50 px-6 py-3 border-b border-gray-200 flex items-center gap-2">
+            <Tags className="w-5 h-5 text-gray-700" />
+            <h3 className="font-semibold text-gray-900">Topics</h3>
           </div>
           <div className="p-6">
             <div className="flex flex-wrap gap-2">
@@ -178,8 +162,9 @@ export function RepoDetails({ data }: RepoDetailsProps) {
 
       {/* Metadata */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
-          <h3 className="font-semibold text-gray-900">ℹ️ Repository Metadata</h3>
+        <div className="bg-gray-50 px-6 py-3 border-b border-gray-200 flex items-center gap-2">
+          <Info className="w-5 h-5 text-gray-700" />
+          <h3 className="font-semibold text-gray-900">Repository Metadata</h3>
         </div>
         <div className="p-6">
           <div className="grid md:grid-cols-2 gap-4 mb-4">
@@ -204,38 +189,13 @@ export function RepoDetails({ data }: RepoDetailsProps) {
               <p className="font-medium text-gray-900">{data.license || "Not specified"}</p>
             </div>
           </div>
-          
-          <div className="border-t pt-4">
-            <p className="text-sm font-medium text-gray-700 mb-2">Enabled Features</p>
-            <div className="flex flex-wrap gap-4">
-              <div className="flex items-center gap-2">
-                <span>📝</span>
-                <span className={`text-sm ${data.has_issues ? 'text-green-600' : 'text-gray-400'}`}>
-                  Issues
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span>📚</span>
-                <span className={`text-sm ${data.has_wiki ? 'text-green-600' : 'text-gray-400'}`}>
-                  Wiki
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span>📊</span>
-                <span className={`text-sm ${data.has_projects ? 'text-green-600' : 'text-gray-400'}`}>
-                  Projects
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span>⬇️</span>
-                <span className={`text-sm ${data.has_downloads ? 'text-green-600' : 'text-gray-400'}`}>
-                  Downloads
-                </span>
-              </div>
-            </div>
-          </div>
+           
         </div>
       </div>
     </div>
   )
 }
+
+
+
+ 
