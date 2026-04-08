@@ -21,17 +21,17 @@ function AccordionItem({
   disabled?: boolean
 }) {
   return (
-    <div className="border-b border-gray-100 last:border-b-0">
+    <div className="border-b border-gray-100 last:border-b-0 ">
       <button
         onClick={onToggle}
         disabled={disabled}
-        className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors ${
+        className={`w-full flex items-center justify-between px-5 py-4 bg-gray-200 text-left transition-colors ${
           disabled
             ? "opacity-40 cursor-not-allowed"
             : "hover:bg-gray-50 cursor-pointer"
         }`}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
           <span className="text-gray-500">{icon}</span>
           <span className="font-medium text-gray-800">{label}</span>
           {disabled && (
@@ -190,9 +190,9 @@ const Analyze = () => {
             </div>
           )}
 
-          {/* Results Accordion — only shown after a successful fetch */}
+         
           {data && !loading && (
-            <div className="mt-6 border border-gray-200 rounded-xl overflow-hidden">
+            <div className="mt-6 border border-gray-200 rounded-xl overflow-hidden ">
               <AccordionItem
                 icon={<BarChart3 className="w-4 h-4" />}
                 label="Repo Details"
