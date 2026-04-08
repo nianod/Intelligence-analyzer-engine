@@ -1,11 +1,10 @@
 "use client"
 import Link from "next/link"
-import { ArrowLeft, ChevronDown, ChevronUp, BarChart3, Globe, GitBranch, Shield, FileText, Layers } from "lucide-react"
+import { ArrowLeft,  ChevronRight, BarChart3, Globe, GitBranch, Shield, FileText, ChevronDown, Layers } from "lucide-react"
 import { useState } from "react"
 import { RepoDetails } from "../components/RepoDetails"
 import { useRepo } from "../hooks/useRepo"
 
-// --- Accordion Item ---
 function AccordionItem({
   icon,
   label,
@@ -41,8 +40,8 @@ function AccordionItem({
         </div>
         {!disabled && (
           isOpen
-            ? <ChevronUp className="w-4 h-4 text-gray-400" />
-            : <ChevronDown className="w-4 h-4 text-gray-400" />
+            ? < ChevronDown className="w-4 h-4 text-gray-400" />
+            : <ChevronRight className="w-4 h-4 text-gray-400" />
         )}
       </button>
       {isOpen && !disabled && (
