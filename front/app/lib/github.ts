@@ -1,9 +1,11 @@
 const BASE_URL = "http://127.0.0.1:8000"
 
 export async function fetchRepoDetails(owner: string, repo: string, token: string) {
+  console.log("token", JSON.stringify(token))
+
   const res = await fetch(`${BASE_URL}/repo/${owner}/${repo}`, {
     headers: {
-      token: token,
+      Authorization: `Bearer ${token}`,
     },
   })
 
