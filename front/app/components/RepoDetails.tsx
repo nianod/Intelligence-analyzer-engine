@@ -16,10 +16,10 @@ export function RepoDetails({ data }: RepoDetailsProps) {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3 flex-wrap">
-        <h2 className="text-xl font-bold text-gray-900">{data.name}</h2>
+        <h2 className="flex items-center gap-1">Name:{" "} <p className="text-xl font-bold text-gray-900">{data.name.charAt(0).toUpperCase() + data.name.slice(1)}</p></h2>
         {data.private && <span className="px-2 py-0.5 bg-gray-200 text-gray-600 text-xs rounded-full">Private</span>}
         {data.fork && <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full">Fork</span>}
-        {data.archived && <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full">Archived</span>}
+        {data.archived && <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full">Archived</span>} 
       </div>
       <p className="text-sm text-gray-500">by {data.full_name}</p>
       <p className="text-gray-700">{data.description || "No description provided"}</p>
