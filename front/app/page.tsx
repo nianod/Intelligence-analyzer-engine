@@ -23,7 +23,6 @@ export default function LandingPage() {
           </div>
         </div>
       </nav>
-
     
       <section className="max-w-5xl mx-auto px-6 py-20 md:py-28">
         <div className="text-center">
@@ -59,7 +58,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Analysis Info Cards - Placed between hero and features */}
+
       <section className="max-w-4xl mx-auto px-6 pb-16">
         <div className="grid md:grid-cols-2 gap-5">
           <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
@@ -85,7 +84,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features Section - Deep analysis, clear insights */}
+  
       <section className="max-w-6xl mx-auto px-6 py-16 border-t border-gray-100">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Deep analysis, clear insights</h2>
@@ -95,7 +94,7 @@ export default function LandingPage() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Feature Cards */}
+
           <div className="border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
               <svg className="w-6 h-6 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,7 +169,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How It Works Section */}
       <section id="how-it-works" className="bg-gray-50 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -310,7 +308,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features Badges */}
+  
       <div className="border-t border-gray-100 py-10">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <div className="flex flex-wrap justify-center gap-5 text-sm">
@@ -322,7 +320,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Footer */}
+
       <footer className="border-t border-gray-200 bg-white py-10">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
