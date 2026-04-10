@@ -20,40 +20,54 @@ function AccordionItem({
   children?: React.ReactNode
   disabled?: boolean
 }) {
-  return (
-    <div className="border-b border-gray-100 last:border-b-0 ">
-      <button
-        onClick={onToggle}
-        disabled={disabled}
-        className={`w-full flex items-center justify-between px-5 py-4 bg-gray-200 text-left transition-colors ${
+ return (
+  <div className="border-b border-gray-100 last:border-b-0">
+    <button
+      onClick={onToggle}
+      disabled={disabled}
+      className={`w-full flex items-center justify-between px-5 py-4 text-left transition-all rounded-lg
+        ${
           disabled
-            ? "opacity-40 cursor-not-allowed"
-            : "hover:bg-gray-50 cursor-pointer"
-        }`}
-      >
-        <div className="flex items-center gap-3 ">
-          <span className="text-gray-500">{icon}</span>
-          <span className="font-medium text-gray-800">{label}</span>
-          {disabled && (
-            <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">Coming soon</span>
-          )}
-        </div>
-        {!disabled && (
-          isOpen
-            ? < ChevronDown className="w-4 h-4 text-gray-400" />
-            : <ChevronRight className="w-4 h-4 text-gray-400" />
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-70"
+            : "bg-white hover:bg-blue-50 cursor-pointer shadow-sm hover:shadow-md"
+        }
+      `}
+    >
+      <div className="flex items-center gap-3">
+        <span className={`${disabled ? "text-gray-400" : "text-blue-500"}`}>
+          {icon}
+        </span>
+
+        <span className={`font-medium ${disabled ? "text-gray-400" : "text-gray-800"}`}>
+          {label}
+        </span>
+
+        {disabled && (
+          <span className="text-xs text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full">
+            Coming soon
+          </span>
         )}
-      </button>
-      {isOpen && !disabled && (
-        <div className="px-5 pb-5 pt-1">
-          {children}
-        </div>
+      </div>
+
+      {!disabled && (
+        isOpen ? (
+          <ChevronDown className="w-4 h-4 text-gray-500" />
+        ) : (
+          <ChevronRight className="w-4 h-4 text-gray-500" />
+        )
       )}
-    </div>
-  )
+    </button>
+
+    {isOpen && !disabled && (
+      <div className="px-5 pb-5 pt-2 bg-blue-50 rounded-b-lg">
+        {children}
+      </div>
+    )}
+  </div>
+)
 }
 
-// --- Main Analyze Page ---
+
 const Analyze = () => {
   const [liveLink, setLiveLink] = useState("")
   const [repoUrl, setRepoUrl] = useState("")
@@ -159,8 +173,7 @@ const Analyze = () => {
               </div>
             )}
           </div>
-
-          {/* Analyze Button */}
+     
           <button
             onClick={handleAnalyze}
             disabled={!isValidInput || isAnalyzing || loading}
@@ -182,14 +195,12 @@ const Analyze = () => {
               "Analyze Project"
             )}
           </button>
-
-          {/* Error */}
+          
           {error && (
             <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-red-700 text-sm">{error}</p>
             </div>
           )}
-
          
           {data && !loading && (
             <div className="mt-6 border border-gray-200 rounded-xl overflow-hidden ">

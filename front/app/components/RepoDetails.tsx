@@ -3,7 +3,7 @@
 import type { RepoDetailsProps } from "../types/RepoDetails"
 import { Star, Eye, GitFork, AlertTriangle, Package } from "lucide-react"
 
-export function RepoDetails({ data }: RepoDetailsProps) {
+export function RepoDetails({ data }: RepoDetailsProps) { 
   const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric", month: "long", day: "numeric",
@@ -14,7 +14,7 @@ export function RepoDetails({ data }: RepoDetailsProps) {
 
   return (
     <div className="space-y-2">
-      {/* Header */}
+    
       <div className="flex items-center gap-3">
         <h2 className="flex items-center gap-1">Name:{" "} <p className="text-xl font-bold text-gray-900">{data.name.charAt(0).toUpperCase() + data.name.slice(1)}</p></h2>
         {data.private && <span className="px-2 py-0.5 bg-gray-200 text-gray-600 text-xs rounded-full">Private</span>}
@@ -82,7 +82,7 @@ export function RepoDetails({ data }: RepoDetailsProps) {
       )}
       </div>
 
-      {/* Metadata */}
+ 
       <div className="grid md:grid-cols-2 gap-3 pt-4 border-t border-gray-200">
         {[
           { label: "Created", value: formatDate(data.created_at) },
