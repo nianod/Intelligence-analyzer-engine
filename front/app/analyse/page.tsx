@@ -97,7 +97,7 @@ const Analyze = () => {
       const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN || ""
       await analyze(parsed.owner, parsed.repo, token)
       setIsAnalyzing(false)
-      setOpenSection("repo-details") // auto-open on new result
+      setOpenSection("repo-details")  
     } else {
       setIsAnalyzing(true)
       setTimeout(() => {
@@ -127,7 +127,7 @@ const Analyze = () => {
             <p className="text-gray-500">Get instant insights on code quality, performance, and security</p>
           </div>
 
-          {/* Tabs */}
+      
           <div className="flex border-b border-gray-200 gap-1 mb-4">
             {[{ id: 1, label: "Live Link" }, { id: 2, label: "Repository URL" }].map((tab) => (
               <button
@@ -145,7 +145,7 @@ const Analyze = () => {
             ))}
           </div>
 
-          {/* Input */}
+        
           <div className="mb-4">
             {activeTab === 1 ? (
               <div>
@@ -263,7 +263,7 @@ const Analyze = () => {
             </div>
           )}
 
-          {/* Example links */}
+         
           <div className="mt-8 text-center">
             <p className="text-xs text-gray-400">Try an example:</p>
             <div className="flex flex-wrap gap-2 justify-center mt-2">
