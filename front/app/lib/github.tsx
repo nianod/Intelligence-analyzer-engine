@@ -3,15 +3,9 @@
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string
 // const BASE_URL = "http://127.0.0.1:8000"
 
-export async function fetchRepoDetails(owner: string, repo: string, token: string) {
-  console.log("token", JSON.stringify(token))
-
-  const res = await fetch(`${BASE_URL}/repo/${owner}/${repo}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-console.log(res)
+export async function fetchRepoDetails(owner: string, repo: string) {  // ✅ remove token
+  const res = await fetch(`${BASE_URL}/repo/${owner}/${repo}`)  // ✅ no headers needed
+  
   if (!res.ok) {
     const error = await res.json()
     throw new Error(error.detail || "Failed to fetch repo")
@@ -19,4 +13,3 @@ console.log(res)
 
   return res.json()
 }
- 

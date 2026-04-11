@@ -4,6 +4,8 @@ import { ArrowLeft,  ChevronRight, BarChart3, Globe, GitBranch, Shield, FileText
 import { useState } from "react"
 import { RepoDetails } from "../components/RepoDetails"
 import { useRepo } from "../hooks/useRepo"
+import UseSecurity from "../hooks/useSecurity"
+import { SecurityResults } from "../components/Security"
 
 function AccordionItem({
   icon,
@@ -75,7 +77,8 @@ const Analyze = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [openSection, setOpenSection] = useState<string | null>("repo-details")
 
-  const { data, loading, error, analyze } = useRepo()
+const { data: repoData, loading: repoLoading, error: repoError, analyze: analyzeRepo } = useRepo()
+const { data: securityData, loading: securityLoading, error: securityError, analyze: analyzeSecurity } = UseSecurity()
 
   const parseGithubUrl = (url: string) => {
     try {
@@ -86,26 +89,27 @@ const Analyze = () => {
     return null
   }
 
-  const handleAnalyze = async () => {
-    const inputValue = activeTab === 1 ? liveLink : repoUrl
-    if (!inputValue.trim()) return
+const handleAnalyze = async () => {
+  const inputValue = activeTab === 1 ? liveLink : repoUrl
+  if (!inputValue.trim()) return
 
-    if (activeTab === 2) {
-      const parsed = parseGithubUrl(inputValue)
-      if (!parsed) return
-      setIsAnalyzing(true)
-      const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN || ""
-      await analyze(parsed.owner, parsed.repo, token)
-      setIsAnalyzing(false)
-      setOpenSection("repo-details")  
-    } else {
-      setIsAnalyzing(true)
-      setTimeout(() => {
-        setIsAnalyzing(false)
-      }, 2000)
-    }
+  if (activeTab === 2) {
+    const parsed = parseGithubUrl(inputValue)
+    if (!parsed) return
+
+    setIsAnalyzing(true)
+    // Call both in parallel
+    await Promise.all([
+      analyzeRepo(parsed.owner, parsed.repo),
+      analyzeSecurity(parsed.owner, parsed.repo),
+    ])
+    setIsAnalyzing(false)
+    setOpenSection("repo-details")
+  } else {
+    setIsAnalyzing(true)
+    setTimeout(() => setIsAnalyzing(false), 2000)
   }
-
+}
   const toggleSection = (id: string) => {
     setOpenSection((prev) => (prev === id ? null : id))
   }
@@ -176,14 +180,14 @@ const Analyze = () => {
      
           <button
             onClick={handleAnalyze}
-            disabled={!isValidInput || isAnalyzing || loading}
+            disabled={!isValidInput || isAnalyzing || repoLoading || securityLoading}
             className={`w-full py-3 rounded-lg font-medium transition-all ${
-              isValidInput && !isAnalyzing && !loading
+              isValidInput && !isAnalyzing && !repoLoading && !securityLoading
                 ? "bg-green-600 text-white hover:bg-green-700 shadow-sm cursor-pointer"
                 : "bg-gray-400 text-white cursor-not-allowed opacity-45"
             }`}
           >
-            {isAnalyzing || loading ? (
+            {isAnalyzing || repoLoading || securityLoading ? (
               <span className="flex items-center justify-center gap-2">
                 <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -196,13 +200,13 @@ const Analyze = () => {
             )}
           </button>
           
-          {error && (
+          {(repoError || securityError) && (
             <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-700 text-sm">{error}</p>
+              <p className="text-red-700 text-sm">{repoError || securityError}</p>
             </div>
           )}
          
-          {data && !loading && (
+          {repoData && !repoLoading && (
             <div className="mt-6 border border-gray-200 rounded-xl overflow-hidden ">
               <AccordionItem
                 icon={<BarChart3 className="w-4 h-4" />}
@@ -210,7 +214,7 @@ const Analyze = () => {
                 isOpen={openSection === "repo-details"}
                 onToggle={() => toggleSection("repo-details")}
               >
-                <RepoDetails data={data} />
+                <RepoDetails data={repoData} />
               </AccordionItem>
 
               <AccordionItem
@@ -234,8 +238,10 @@ const Analyze = () => {
                 label="Security & Secrets Scan"
                 isOpen={openSection === "security"}
                 onToggle={() => toggleSection("security")}
-                disabled
-              />
+             
+              >
+                <SecurityResults data={securityData}/>
+              </AccordionItem>
 
               <AccordionItem
                 icon={<FileText className="w-4 h-4" />}
