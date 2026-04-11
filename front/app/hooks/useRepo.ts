@@ -6,11 +6,11 @@ export function useRepo() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const analyze = async (owner: string, repo: string, token: string) => {
+  const analyze = async (owner: string, repo: string, ) => {
     setLoading(true)
     setError(null)
     try {
-      const result = await fetchRepoDetails(owner, repo, token)
+      const result = await fetchRepoDetails(owner, repo)
       setData(result)
     } catch (err: any) {
       setError(err.message)

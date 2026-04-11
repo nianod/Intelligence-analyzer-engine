@@ -6,7 +6,7 @@ const UseSecurity = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-      const analyze = async (owner: string, repo: string, token: string) => {
+      const analyze = async (owner: string, repo: string) => {
         setLoading(true)
         setError(null)
         try {
@@ -21,3 +21,5 @@ const UseSecurity = () => {
 
       return { data, loading, error, analyze}
 }
+
+export default UseSecurity
