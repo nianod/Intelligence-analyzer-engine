@@ -365,3 +365,6 @@ async def detect_tech_stack(owner: str, repo: str):
             "stack": grouped,
             "total_detected": sum(len(v) for v in grouped.values()),
         }
+    
+
+    
