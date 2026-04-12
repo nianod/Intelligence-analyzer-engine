@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from routers import repo, security
+from services import live
 
 load_dotenv()
 
@@ -18,6 +19,7 @@ app.add_middleware(
 # --- Routers ---
 app.include_router(repo.router)
 app.include_router(security.router)
+app.include_router(live.router)
 
 
 @app.get("/")
@@ -29,4 +31,3 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
-    
