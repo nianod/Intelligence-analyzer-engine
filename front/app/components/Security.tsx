@@ -29,16 +29,19 @@ interface SecurityData {
 }
 
 interface SecurityResultsProps {
-  data: SecurityData | null  // ✅ allow null
+  data: SecurityData | null
 }
 
 export function SecurityResults({ data }: SecurityResultsProps) {
   const [activeTab, setActiveTab] = useState<"critical" | "high" | "medium">("critical")
 
-  // ✅ null guard
-  if (!data) return (
-    <p className="text-sm text-gray-400 py-4 text-center">Run an analysis to see security results.</p>
-  )
+  if (!data) {
+    return (
+      <p className="text-sm text-gray-400 py-4 text-center">
+         Scanning... 
+      </p>
+    )
+  }
 
   const getRiskBadgeColor = (riskLevel: string) => {
     switch (riskLevel) {
