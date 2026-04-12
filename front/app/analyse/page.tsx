@@ -4,7 +4,7 @@ import { ArrowLeft,  ChevronRight, BarChart3, Globe, GitBranch, Shield, FileText
 import { useState } from "react"
 import { RepoDetails } from "../components/RepoDetails"
 import { useRepo } from "../hooks/useRepo"
-import UseSecurity from "../hooks/useSecurity"
+import useSecurity from "../hooks/useSecurity"
 import { SecurityResults } from "../components/Security"
 
 function AccordionItem({
@@ -23,7 +23,7 @@ function AccordionItem({
   disabled?: boolean
 }) {
  return (
-  <div className="border-b border-gray-100 last:border-b-0">
+  <div className="border-b mt-3 border-gray-100 last:border-b-0">
     <button
       onClick={onToggle}
       disabled={disabled}
@@ -31,7 +31,7 @@ function AccordionItem({
         ${
           disabled
             ? "bg-gray-100 text-gray-400 cursor-not-allowed opacity-70"
-            : "bg-white hover:bg-blue-50 cursor-pointer shadow-sm hover:shadow-md"
+            : "bg-white hover:bg-green-50 cursor-pointer shadow-sm hover:shadow-md"
         }
       `}
     >
@@ -76,9 +76,9 @@ const Analyze = () => {
   const [activeTab, setActiveTab] = useState(1)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [openSection, setOpenSection] = useState<string | null>("repo-details")
+  const { data: repoData, loading: repoLoading, error: repoError, analyze: analyzeRepo } = useRepo()
+  const { data: securityData, loading: securityLoading, error: securityError, analyze: analyzeSecurity } = useSecurity()
 
-const { data: repoData, loading: repoLoading, error: repoError, analyze: analyzeRepo } = useRepo()
-const { data: securityData, loading: securityLoading, error: securityError, analyze: analyzeSecurity } = UseSecurity()
 
   const parseGithubUrl = (url: string) => {
     try {
@@ -219,6 +219,16 @@ const handleAnalyze = async () => {
 
               <AccordionItem
                 icon={<Shield className="w-4 h-4" />}
+                label="Security & Secrets Scan"
+                isOpen={openSection === "security"}
+                onToggle={() => toggleSection("security")}
+             
+              >
+                <SecurityResults data={securityData}/>
+              </AccordionItem>
+
+              <AccordionItem
+                icon={<Shield className="w-4 h-4" />}
                 label="Vibe Coding Score"
                 isOpen={openSection === "vibe-score"}
                 onToggle={() => toggleSection("vibe-score")}
@@ -233,15 +243,6 @@ const handleAnalyze = async () => {
                 disabled
               />
 
-              <AccordionItem
-                icon={<Shield className="w-4 h-4" />}
-                label="Security & Secrets Scan"
-                isOpen={openSection === "security"}
-                onToggle={() => toggleSection("security")}
-             
-              >
-                <SecurityResults data={securityData}/>
-              </AccordionItem>
 
               <AccordionItem
                 icon={<FileText className="w-4 h-4" />}
