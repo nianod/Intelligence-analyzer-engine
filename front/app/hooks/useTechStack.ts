@@ -1,16 +1,16 @@
 import { useState } from "react"
-import livePerfomance from "../lib/live"
+import techStack from "../lib/techStack"
 
-export function useLive() {
+const useTechStack = () => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const analyze = async (url: string) => {
+  const analyze = async (owner: string, repo: string, ) => {
     setLoading(true)
     setError(null)
     try {
-      const result = await livePerfomance(url)
+      const result = await techStack(owner, repo)
       setData(result)
     } catch (err: any) {
       setError(err.message)
@@ -22,3 +22,4 @@ export function useLive() {
   return { data, loading, error, analyze }
 }
 
+export default useTechStack

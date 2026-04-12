@@ -1,7 +1,7 @@
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-const livePerfomance = async(url: string) => {
-    const response = await fetch(`${BASE_URL}/live/analyze?url=${encodeURIComponent(url)}`)
+const techStack = async(owner: string, repo: string) => {
+    const response = await fetch(`${BASE_URL}/repo/${owner}/${repo}/techstack`)
 
     if(!response.ok) {
         const error = await response.json()
@@ -11,6 +11,6 @@ const livePerfomance = async(url: string) => {
     return response.json()
 }
 
-export default livePerfomance
+export default techStack
 
  

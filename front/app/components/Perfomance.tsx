@@ -24,14 +24,14 @@ const Performance = ({ data }: Props) => {
   return (
     <div className="mt-6 space-y-6">
 
-      {/* SUMMARY */}
+ 
       <div className="grid grid-cols-3 gap-4">
         <Card title="Performance" value={data.summary?.performance} />
         <Card title="Security" value={data.summary?.security} />
         <Card title="SEO" value={data.summary?.seo} />
       </div>
 
-      {/* SCORES */}
+ 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card title="Security Score" value={`${data.security_score ?? 0}/100`} />
         <Card title="Load Time" value={`${data.performance?.load_time_ms ?? 0} ms`} />
@@ -39,10 +39,10 @@ const Performance = ({ data }: Props) => {
         <Card title="Tech Found" value={data.tech_stack?.length ?? 0} />
       </div>
 
-      {/* ACCORDION */}
+ 
       <div className="border rounded-xl overflow-hidden">
 
-        {/* SECURITY */}
+      
         <Section
           icon={<Shield size={16} />}
           title="Security Analysis"
@@ -86,7 +86,7 @@ const Performance = ({ data }: Props) => {
           </div>
         </Section>
 
-        {/* PERFORMANCE */}
+ 
         <Section
           icon={<Zap size={16} />}
           title="Performance"
@@ -101,7 +101,7 @@ const Performance = ({ data }: Props) => {
           </div>
         </Section>
 
-        {/* TECH STACK */}
+   
         <Section
           icon={<Layers size={16} />}
           title="Tech Stack"
@@ -120,7 +120,7 @@ const Performance = ({ data }: Props) => {
           </div>
         </Section>
 
-        {/* SEO */}
+ 
         <Section
           icon={<Globe size={16} />}
           title="SEO"
@@ -139,8 +139,7 @@ const Performance = ({ data }: Props) => {
     </div>
   )
 }
-
-/* 🔧 Sub Components */
+ 
 
 type CardProps = {
   title: string

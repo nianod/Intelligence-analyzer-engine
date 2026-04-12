@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from routers import repo, security
+from routers import repo, security, techStack
 from services import live
 
 load_dotenv()
@@ -20,6 +20,7 @@ app.add_middleware(
 app.include_router(repo.router)
 app.include_router(security.router)
 app.include_router(live.router)
+app.include_router(techStack.router)
 
 
 @app.get("/")
