@@ -4,8 +4,10 @@ import { ArrowLeft,  ChevronRight, BarChart3, Globe, GitBranch, Shield, FileText
 import { useState } from "react"
 import { RepoDetails } from "../components/RepoDetails"
 import { useRepo } from "../hooks/useRepo"
+import { useLive } from "../hooks/useLive"
 import useSecurity from "../hooks/useSecurity"
 import { SecurityResults } from "../components/Security"
+import Performance from "../components/Perfomance"
 
 function AccordionItem({
   icon,
@@ -77,6 +79,7 @@ const Analyze = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [openSection, setOpenSection] = useState<string | null>("repo-details")
   const { data: repoData, loading: repoLoading, error: repoError, analyze: analyzeRepo } = useRepo()
+  const {data: liveData, loading: liveLoading, error:liveError } = useLive()
   const { data: securityData, loading: securityLoading, error: securityError, analyze: analyzeSecurity } = useSecurity()
 
 
