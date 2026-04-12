@@ -26,7 +26,7 @@ async def get_repo_details(owner: str, repo: str):
 
         data = res.json()
         return {
-            # Basic info
+        
             "id": data["id"],
             "name": data["name"],
             "full_name": data["full_name"],
@@ -35,23 +35,23 @@ async def get_repo_details(owner: str, repo: str):
             "private": data["private"],
             "fork": data["fork"],
 
-            # Stats
+     
             "stars": data["stargazers_count"],
             "watchers": data["watchers_count"],
             "forks": data["forks_count"],
             "open_issues": data["open_issues_count"],
             "size_kb": data["size"],
 
-            # Language & topics
+         
             "language": data["language"],
             "topics": data["topics"],
 
-            # Dates
+   
             "created_at": data["created_at"],
             "updated_at": data["updated_at"],
             "pushed_at": data["pushed_at"],
 
-            # Owner
+ 
             "owner": {
                 "username": data["owner"]["login"],
                 "avatar": data["owner"]["avatar_url"],
@@ -59,7 +59,7 @@ async def get_repo_details(owner: str, repo: str):
                 "type": data["owner"]["type"],
             },
 
-            # Repo settings
+  
             "default_branch": data["default_branch"],
             "has_issues": data["has_issues"],
             "has_wiki": data["has_wiki"],
@@ -68,7 +68,7 @@ async def get_repo_details(owner: str, repo: str):
             "archived": data["archived"],
             "disabled": data["disabled"],
 
-            # License
+ 
             "license": data["license"]["name"] if data.get("license") else None,
         }
 
