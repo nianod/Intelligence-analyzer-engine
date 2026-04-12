@@ -1,7 +1,7 @@
 import { useState } from "react"
 import livePerfomance from "../lib/live"
 
-export function useRepo() {
+export function useLive() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
