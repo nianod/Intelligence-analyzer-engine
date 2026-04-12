@@ -1,5 +1,6 @@
 "use client"
 
+import { Loader2 } from "lucide-react"
 import { useState } from "react"
 
 interface Finding {
@@ -35,20 +36,22 @@ interface SecurityResultsProps {
 export function SecurityResults({ data }: SecurityResultsProps) {
   const [activeTab, setActiveTab] = useState<"critical" | "high" | "medium">("critical")
 
-  if (!data) {
-    return (
-      <p className="text-sm text-gray-400 py-4 text-center">
-         Scanning... 
-      </p>
-    )
-  }
+if (!data) {
+  return (
+    <p className="text-sm text-gray-400 py-4 text-center flex items-center gap-2 justify-center">
+       <Loader2 className="animate-spin "/>
+      Security scan in progress...
+     
+    </p>
+  )
+}
 
   const getRiskBadgeColor = (riskLevel: string) => {
     switch (riskLevel) {
-      case "critical": return "bg-red-100 text-red-700 border-red-200"
-      case "high": return "bg-orange-100 text-orange-700 border-orange-200"
-      case "medium": return "bg-yellow-100 text-yellow-700 border-yellow-200"
-      default: return "bg-green-100 text-green-700 border-green-200"
+      case "critical": return "  text-red-700 border-red-200"
+      case "high": return " text-orange-700 border-orange-200"
+      case "medium": return "  text-yellow-700 border-yellow-200"
+      default: return "  text-green-700 border-green-200"
     }
   }
 
@@ -60,7 +63,7 @@ export function SecurityResults({ data }: SecurityResultsProps) {
 
   return (
     <div className="space-y-6 mt-8">
-      {/* Header with Risk Level */}
+  
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
           <div className="flex items-center justify-between flex-wrap gap-4">
@@ -79,18 +82,17 @@ export function SecurityResults({ data }: SecurityResultsProps) {
             </div>
           </div>
         </div>
-
-        {/* Summary Stats */}
+ 
         <div className="p-6">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {[
-              { label: "Critical", value: data.summary.critical, color: "text-red-600", bg: "bg-red-50" },
-              { label: "High", value: data.summary.high, color: "text-orange-600", bg: "bg-orange-50" },
-              { label: "Medium", value: data.summary.medium, color: "text-yellow-600", bg: "bg-yellow-50" },
-              { label: "Files Scanned", value: data.summary.files_scanned, color: "text-blue-600", bg: "bg-blue-50" },
-              { label: "Files Skipped", value: data.summary.files_skipped, color: "text-gray-600", bg: "bg-gray-50" },
+              { label: "Critical", value: data.summary.critical, color: "text-red-600" },
+              { label: "High", value: data.summary.high, color: "text-orange-600"   },
+              { label: "Medium", value: data.summary.medium, color: "text-yellow-600" },
+              { label: "Files Scanned", value: data.summary.files_scanned, color: "text-green-600"},
+              { label: "Files Skipped", value: data.summary.files_skipped, color: "text-green-600"},
             ].map((stat) => (
-              <div key={stat.label} className={`text-center p-3 ${stat.bg} rounded-lg`}>
+              <div key={stat.label} className={`text-center p-3  rounded-lg`}>
                 <p className={`text-2xl font-bold ${stat.color}`}>{stat.value}</p>
                 <p className="text-xs text-gray-600 mt-1">{stat.label}</p>
               </div>
@@ -99,7 +101,7 @@ export function SecurityResults({ data }: SecurityResultsProps) {
         </div>
       </div>
 
-      {/* .env Files Detected */}
+  
       {data.summary.env_files_detected.length > 0 && (
         <div className="bg-yellow-50 rounded-xl border border-yellow-200 overflow-hidden">
           <div className="bg-yellow-100 px-6 py-3 border-b border-yellow-200 flex items-center gap-2">
@@ -120,7 +122,7 @@ export function SecurityResults({ data }: SecurityResultsProps) {
         </div>
       )}
 
-      {/* Findings Tabs */}
+      
       {data.summary.total_findings > 0 && (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div className="border-b border-gray-200">
@@ -154,7 +156,7 @@ export function SecurityResults({ data }: SecurityResultsProps) {
             </div>
           </div>
 
-          {/* Findings List */}
+         
           <div className="p-6">
             {data.findings[activeTab].length === 0 ? (
               <div className="text-center py-8">
@@ -190,7 +192,7 @@ export function SecurityResults({ data }: SecurityResultsProps) {
         </div>
       )}
 
-      {/* No Findings */}
+   
       {data.summary.total_findings === 0 && (
         <div className="bg-green-50 rounded-xl border border-green-200 overflow-hidden">
           <div className="bg-green-100 px-6 py-3 border-b border-green-200">
@@ -203,12 +205,11 @@ export function SecurityResults({ data }: SecurityResultsProps) {
           </div>
         </div>
       )}
-
-      {/* Recommendations */}
+ 
       {data.summary.total_findings > 0 && (
-        <div className="bg-blue-50 rounded-xl border border-blue-200 overflow-hidden">
+        <div className="  rounded-xl border   overflow-hidden">
           <div className="bg-blue-100 px-6 py-3 border-b border-blue-200">
-            <h3 className="font-semibold text-blue-800">Recommendations</h3>
+            <h3 className="font-semibold ">Recommendations</h3>
           </div>
           <div className="p-6">
             <ul className="space-y-2">
@@ -219,8 +220,8 @@ export function SecurityResults({ data }: SecurityResultsProps) {
                 "Rotate any exposed credentials immediately",
                 "Consider using pre-commit hooks with secret scanning (e.g., detect-secrets, gitleaks)",
               ].map((tip, i) => (
-                <li key={i} className="flex gap-2 text-sm text-blue-700">
-                  <span>•</span>{tip}
+                <li key={i} className="flex gap-2 text-sm text-green-700">
+                  <span>-</span>{tip}
                 </li>
               ))}
             </ul>
@@ -230,3 +231,5 @@ export function SecurityResults({ data }: SecurityResultsProps) {
     </div>
   )
 }
+
+

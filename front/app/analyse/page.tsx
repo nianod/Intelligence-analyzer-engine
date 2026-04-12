@@ -125,7 +125,7 @@ const handleAnalyze = async () => {
       <div className="min-h-screen bg-white p-4 md:p-6">
         <div className="max-w-3xl mx-auto">
 
-          {/* Title */}
+ 
           <div className="text-center mb-6">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Analyze Your Project</h1>
             <p className="text-gray-500">Get instant insights on code quality, performance, and security</p>

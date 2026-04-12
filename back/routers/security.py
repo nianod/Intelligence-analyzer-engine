@@ -7,7 +7,7 @@ from routers.dependancies import get_headers, GITHUB_API
 
 router = APIRouter(prefix="/repo", tags=["Security"])
 
-# --- Secret Patterns: (regex, severity) ---
+# --- Secret Patterns ---
 SECRET_PATTERNS = {
     "AWS Access Key":       (r'AKIA[0-9A-Z]{16}', "critical"),
     "AWS Secret Key":       (r'(?i)aws_secret_access_key\s*=\s*["\']?([A-Za-z0-9/+=]{40})', "critical"),
@@ -74,7 +74,7 @@ def scan_content(content: str, filepath: str) -> list:
             matches = re.findall(pattern, line)
             if matches:
                 raw = matches[0]
-                # re.findall returns tuples when there are groups — grab last group
+                
                 if isinstance(raw, tuple):
                     raw = raw[-1]
                 findings.append({
@@ -93,8 +93,7 @@ async def scan_repo_secrets(owner: str, repo: str):
     Scan a GitHub repository for hardcoded secrets, API keys, tokens, and credentials.
     """
     async with httpx.AsyncClient(timeout=30) as client:
-
-        # 1. Fetch full file tree
+ 
         tree_res = await client.get(
             f"{GITHUB_API}/repos/{owner}/{repo}/git/trees/HEAD?recursive=1",
             headers=get_headers(),
@@ -104,7 +103,7 @@ async def scan_repo_secrets(owner: str, repo: str):
 
         tree = tree_res.json().get("tree", [])
 
-        # 2. Filter scannable files
+      
         all_files = [
             f for f in tree
             if f["type"] == "blob"
@@ -112,19 +111,18 @@ async def scan_repo_secrets(owner: str, repo: str):
             and f.get("size", 0) < MAX_FILE_SIZE
         ]
 
-        # 3. High priority files first
+    
         all_files.sort(key=lambda f: 0 if is_high_priority(f["path"]) else 1)
 
         files_to_scan = all_files[:MAX_FILES_TO_SCAN]
         skipped_count = len(all_files) - len(files_to_scan)
 
-        # 4. Flag .env files found anywhere in the tree
+   
         env_files_found = [
             f["path"] for f in tree
             if f["path"].split("/")[-1].startswith(".env")
         ]
-
-        # 5. Scan each file
+ 
         all_findings = []
         scanned_count = 0
 
@@ -151,7 +149,7 @@ async def scan_repo_secrets(owner: str, repo: str):
 
             all_findings.extend(scan_content(content, file["path"]))
 
-        # 6. Group by severity
+     
         grouped: dict = {"critical": [], "high": [], "medium": []}
         for finding in all_findings:
             grouped[finding["severity"]].append(finding)
@@ -181,3 +179,6 @@ async def scan_repo_secrets(owner: str, repo: str):
                 "medium": grouped["medium"],
             },
         }
+
+
+
