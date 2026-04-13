@@ -10,15 +10,10 @@ import { SecurityResults } from "../components/Security"
 import Performance from "../components/Perfomance"
 import TechStack from "../components/TechStack"
 import useTechStack from "../hooks/useTechStack"
+import { useVibeCoding } from "../hooks/useVibeCoding"
+import { VibeScore } from "../components/VibeCoding"
 
-function AccordionItem({
-  icon,
-  label,
-  isOpen,
-  onToggle,
-  children,
-  disabled = false,
-}: {
+function AccordionItem({ icon, label, isOpen, onToggle, children, disabled = false}: {
   icon: React.ReactNode
   label: string
   isOpen: boolean
@@ -69,6 +64,7 @@ const Analyze = () => {
   const { data: liveData, loading: liveLoading, error: liveError, analyze: analyzeLive } = useLive()
   const { data: techStackData, loading: techStackLoading, error: techStackError, analyze: analyzeTechStack} = useTechStack()
   const { data: securityData, loading: securityLoading, error: securityError, analyze: analyzeSecurity } = useSecurity()
+  const { data: vibeCodeData, loading: vibeCodeLoading, error: vibeCodeError, analyze: analyzeVibeCode } = useVibeCoding()
 
   const parseGithubUrl = (url: string) => {
     try {
@@ -96,10 +92,11 @@ const Analyze = () => {
       await Promise.all([
         analyzeRepo(parsed.owner, parsed.repo),
         analyzeSecurity(parsed.owner, parsed.repo),
-        analyzeTechStack(parsed.owner, parsed.repo)
+        analyzeTechStack(parsed.owner, parsed.repo),
+        analyzeVibeCode(parsed.owner, parsed.repo)
       ])
       setOpenSection("repo-details")
-      console.log(techStackData)
+       
     }
 
     setIsAnalyzing(false)
@@ -110,7 +107,7 @@ const Analyze = () => {
   }
 
   const isValidInput = activeTab === 1 ? liveLink.trim() : repoUrl.trim()
-  const isLoading = isAnalyzing || repoLoading || securityLoading || liveLoading || techStackLoading
+  const isLoading = isAnalyzing || repoLoading || securityLoading || liveLoading || techStackLoading || vibeCodeLoading
 
   return (
     <div>
@@ -197,9 +194,9 @@ const Analyze = () => {
           </button>
 
           
-          {(repoError || securityError || liveError) && (
+          {(repoError || securityError || liveError || techStackError || vibeCodeError) && (
             <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-700 text-sm">{repoError || securityError || liveError || techStackError}</p>
+              <p className="text-red-700 text-sm">{repoError || securityError || liveError || techStackError || vibeCodeError}</p>
             </div>
           )}
  
@@ -241,11 +238,12 @@ const Analyze = () => {
 
               <AccordionItem
                 icon={<Shield className="w-4 h-4" />}
-                label="Vibe Coding Score"
+                label="Vibe Coding deteciton"
                 isOpen={openSection === "vibe-score"}
                 onToggle={() => toggleSection("vibe-score")}
-                disabled
-              />
+              >
+                <VibeScore data={vibeCodeData}/>
+              </AccordionItem>
 
               <AccordionItem
                 icon={<Layers className="w-4 h-4" />}
