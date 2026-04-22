@@ -7,7 +7,7 @@ from routers.dependancies import get_headers, GITHUB_API
 
 router = APIRouter(prefix="/repo", tags=["Security"])
 
-# --- Secret Patterns ---
+#  Secret Patterns  
 SECRET_PATTERNS = {
     "AWS Access Key":       (r'AKIA[0-9A-Z]{16}', "critical"),
     "AWS Secret Key":       (r'(?i)aws_secret_access_key\s*=\s*["\']?([A-Za-z0-9/+=]{40})', "critical"),

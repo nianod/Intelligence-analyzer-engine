@@ -116,7 +116,7 @@ FRAMEWORK_SIGNALS = {
     "docker":               ("Docker", "devops"),
 }
 
-# Python package signals
+# Python package  
 PYTHON_SIGNALS = {
     "django":               ("Django", "framework"),
     "flask":                ("Flask", "framework"),
