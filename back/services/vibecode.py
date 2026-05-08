@@ -8,7 +8,6 @@ from routers.dependancies import get_headers, GITHUB_API
 
 router = APIRouter(prefix="/repo", tags=["Vibe Score"])
 
- 
 
 MAX_FILES_TO_SCAN = 200
 MAX_FILE_SIZE = 300_000  # 300KB
@@ -28,7 +27,6 @@ CODE_EXTENSIONS = {
     ".java", ".rb", ".php", ".cs", ".cpp", ".c", ".vue", ".svelte"
 }
 
- up = spam
 DEPENDENCY_GROUPS = {
     "HTTP Clients":       {"axios", "node-fetch", "got", "superagent", "ky", "unfetch", "cross-fetch"},
     "Date Libraries":     {"moment", "dayjs", "date-fns", "luxon", "fecha"},
@@ -63,7 +61,6 @@ EMOJI_PATTERN = re.compile(
     flags=re.UNICODE
 )
 
- 
 
 def should_skip(path: str) -> bool:
     parts = path.split("/")
@@ -105,8 +102,6 @@ async def fetch_content(client, owner, repo, path) -> str | None:
     return data.get("content", "")
 
 
- 
-
 def check_massive_files(files_with_sizes: list[dict]) -> dict:
     """Flag files that are too large — sign of no separation of concerns."""
     THRESHOLDS = {
@@ -119,7 +114,6 @@ def check_massive_files(files_with_sizes: list[dict]) -> dict:
         size = f.get("size", 0)
         ext = "." + path.rsplit(".", 1)[-1].lower() if "." in path else ""
 
-        
         estimated_lines = size // 40
 
         is_component = ext in THRESHOLDS["component"][1]
@@ -147,17 +141,17 @@ def check_naming_consistency(content: str, path: str) -> dict:
     ext = "." + path.rsplit(".", 1)[-1].lower() if "." in path else ""
 
     if ext in {".py", ".rb"}:
-         camel = len(re.findall(r'\b[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]*\b', content))
+        camel = len(re.findall(r'\b[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]*\b', content))
         snake = len(re.findall(r'\b[a-z][a-z0-9]*(?:_[a-z0-9]+)+\b', content))
         total = camel + snake
         if total == 0:
             return {"mixed": False}
         camel_pct = camel / total
-        mixed = camel_pct > 0.2 and snake > 5  # more than 20% wrong style
+        mixed = camel_pct > 0.2 and snake > 5
         return {"mixed": mixed, "camel": camel, "snake": snake}
 
     else:
-         snake = len(re.findall(r'\b[a-z][a-z0-9]*(?:_[a-z0-9]+){2,}\b', content))
+        snake = len(re.findall(r'\b[a-z][a-z0-9]*(?:_[a-z0-9]+){2,}\b', content))
         camel = len(re.findall(r'\b[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]*\b', content))
         total = snake + camel
         if total == 0:
@@ -201,7 +195,7 @@ def check_comment_overload(content: str, path: str) -> dict:
 
 def check_hardcoded_values(content: str, path: str) -> list[dict]:
     """Detect hardcoded URLs, IPs, ports in logic files."""
-     skip_names = {"config.js", "config.ts", "constants.js", "constants.ts",
+    skip_names = {"config.js", "config.ts", "constants.js", "constants.ts",
                   ".env", "env.js", "env.ts", "next.config.js", "next.config.ts"}
     filename = path.split("/")[-1].lower()
     if filename in skip_names:
@@ -209,7 +203,7 @@ def check_hardcoded_values(content: str, path: str) -> list[dict]:
 
     findings = []
     for line_num, line in enumerate(content.splitlines(), 1):
-         stripped = line.strip()
+        stripped = line.strip()
         if stripped.startswith("//") or stripped.startswith("#") or stripped.startswith("*"):
             continue
         for pattern, label in HARDCODED_PATTERNS:
@@ -245,7 +239,7 @@ def check_dependency_spam(package_json_content: str) -> dict:
             })
 
     total_deps = len(all_deps)
-     dep_count_flag = total_deps > 50
+    dep_count_flag = total_deps > 50
 
     penalty = min(12, len(spam_groups) * 3 + (4 if dep_count_flag else 0))
     return {
@@ -277,9 +271,12 @@ def check_documentation(all_paths: set, readme_content: str | None) -> dict:
             readme_quality = "good"
 
     penalty = 0
-    if not has_readme:         penalty += 10
-    elif readme_quality == "stub":   penalty += 7
-    elif readme_quality == "basic":  penalty += 3
+    if not has_readme:
+        penalty += 10
+    elif readme_quality == "stub":
+        penalty += 7
+    elif readme_quality == "basic":
+        penalty += 3
 
     return {
         "has_readme": has_readme,
@@ -296,7 +293,7 @@ def check_tests(all_paths: set) -> dict:
     test_files = [p for p in all_paths if is_test_file(p)]
     has_tests = len(test_files) > 0
 
-     test_configs = {"jest.config.js", "jest.config.ts", "vitest.config.ts",
+    test_configs = {"jest.config.js", "jest.config.ts", "vitest.config.ts",
                     "vitest.config.js", "pytest.ini", "setup.cfg"}
     has_test_config = bool(test_configs & all_paths)
 
@@ -304,7 +301,7 @@ def check_tests(all_paths: set) -> dict:
     if not has_tests:
         penalty = 15
     elif len(test_files) < 3:
-        penalty = 7  # Token tests  
+        penalty = 7
 
     return {
         "has_tests": has_tests,
@@ -324,9 +321,9 @@ def check_structure(all_paths: set) -> dict:
     """Check folder structure and separation of concerns."""
     issues = []
 
-     dirs = {"/".join(p.split("/")[:-1]) for p in all_paths if "/" in p}
+    dirs = {"/".join(p.split("/")[:-1]) for p in all_paths if "/" in p}
 
-     root_code_files = [
+    root_code_files = [
         p for p in all_paths
         if "/" not in p and is_code_file(p)
     ]
@@ -340,11 +337,11 @@ def check_structure(all_paths: set) -> dict:
     if len(src_flat) > 15:
         issues.append("All files flat in src/ with no subfolders")
 
-     component_with_api = []
+    component_with_api = []
     for p in all_paths:
         ext = "." + p.rsplit(".", 1)[-1].lower() if "." in p else ""
         if ext in {".jsx", ".tsx"} and ("page" in p.lower() or "component" in p.lower()):
-            component_with_api.append(p)   
+            component_with_api.append(p)
 
     penalty = min(11, len(issues) * 4)
     return {
@@ -356,7 +353,6 @@ def check_structure(all_paths: set) -> dict:
         "detail": issues[0] if issues else "Structure looks organized",
     }
 
- 
 
 @router.get("/{owner}/{repo}/vibescore")
 async def vibe_score(owner: str, repo: str):
@@ -365,8 +361,7 @@ async def vibe_score(owner: str, repo: str):
     written code lacking structure, consistency, tests, and intentional design.
     """
     async with httpx.AsyncClient(timeout=30) as client:
-
-         tree_res = await client.get(
+        tree_res = await client.get(
             f"{GITHUB_API}/repos/{owner}/{repo}/git/trees/HEAD?recursive=1",
             headers=get_headers()
         )
@@ -377,10 +372,10 @@ async def vibe_score(owner: str, repo: str):
         all_paths = {f["path"] for f in tree if f["type"] == "blob"}
         all_files = [f for f in tree if f["type"] == "blob" and not should_skip(f["path"])]
 
-         structure_result = check_structure(all_paths)
+        structure_result = check_structure(all_paths)
         tests_result = check_tests(all_paths)
 
-        # 3. Fetch README
+        # Fetch README
         readme_content = None
         for readme_path in ["README.md", "readme.md", "Readme.md"]:
             if readme_path in all_paths:
@@ -388,24 +383,30 @@ async def vibe_score(owner: str, repo: str):
                 break
         docs_result = check_documentation(all_paths, readme_content)
 
-         dep_result = {"spam_groups": [], "penalty": 0, "verdict": "pass",
-                      "detail": "No package.json found", "total_dependencies": 0, "excessive_total": False}
+        dep_result = {
+            "spam_groups": [],
+            "penalty": 0,
+            "verdict": "pass",
+            "detail": "No package.json found",
+            "total_dependencies": 0,
+            "excessive_total": False,
+        }
         if "package.json" in all_paths:
             pkg_content = await fetch_content(client, owner, repo, "package.json")
             if pkg_content:
                 dep_result = check_dependency_spam(pkg_content)
 
-         code_files = [
+        code_files = [
             f for f in all_files
             if is_code_file(f["path"]) and not is_test_file(f["path"])
             and f.get("size", 0) < MAX_FILE_SIZE
         ][:MAX_FILES_TO_SCAN]
 
-         massive_result = check_massive_files([
+        massive_result = check_massive_files([
             f for f in all_files if is_code_file(f["path"])
         ])
 
-         naming_violations = []
+        naming_violations = []
         comment_violations = []
         hardcoded_violations = []
         total_emoji_count = 0
@@ -415,12 +416,10 @@ async def vibe_score(owner: str, repo: str):
             if not content:
                 continue
 
- 
             naming = check_naming_consistency(content, file["path"])
             if naming.get("mixed"):
                 naming_violations.append(file["path"])
 
-     
             comments = check_comment_overload(content, file["path"])
             total_emoji_count += comments.get("emoji_count", 0)
             if comments.get("overloaded"):
@@ -430,10 +429,9 @@ async def vibe_score(owner: str, repo: str):
                     "emoji_count": comments.get("emoji_count"),
                 })
 
-            # Hardcoded values
             hardcoded = check_hardcoded_values(content, file["path"])
             hardcoded_violations.extend(hardcoded)
- 
+
         naming_penalty = min(15, len(naming_violations) * 3)
         naming_result = {
             "violations": naming_violations,
@@ -446,7 +444,6 @@ async def vibe_score(owner: str, repo: str):
             ),
         }
 
-         
         comment_penalty = min(10, len(comment_violations) * 2 + (3 if total_emoji_count > 10 else 0))
         comment_result = {
             "violations": comment_violations[:10],
@@ -460,7 +457,7 @@ async def vibe_score(owner: str, repo: str):
                 else "Comment density looks healthy"
             ),
         }
- 
+
         hardcoded_penalty = min(12, len(hardcoded_violations) * 2)
         hardcoded_result = {
             "violations": hardcoded_violations[:15],
@@ -472,7 +469,7 @@ async def vibe_score(owner: str, repo: str):
                 if hardcoded_violations else "No hardcoded values detected"
             ),
         }
- 
+
         total_penalty = (
             massive_result["penalty"] +
             naming_result["penalty"] +
@@ -508,14 +505,15 @@ async def vibe_score(owner: str, repo: str):
             "verdict": verdict,
             "files_analyzed": len(code_files),
             "checks": {
-                "massive_files":     massive_result,
-                "naming":            naming_result,
-                "tests":             tests_result,
-                "hardcoded_values":  hardcoded_result,
-                "dependency_spam":   dep_result,
-                "comments_emojis":   comment_result,
-                "documentation":     docs_result,
-                "structure":         structure_result,
+                "massive_files":    massive_result,
+                "naming":           naming_result,
+                "tests":            tests_result,
+                "hardcoded_values": hardcoded_result,
+                "dependency_spam":  dep_result,
+                "comments_emojis":  comment_result,
+                "documentation":    docs_result,
+                "structure":        structure_result,
             },
         }
-
+        
+        
