@@ -276,7 +276,7 @@ const Analyze = () => {
             <div className="flex flex-wrap gap-2 justify-center mt-2">
               <button onClick={() => { setRepoUrl("https://github.com/vercel/next.js"); setActiveTab(2) }}
                 className="text-xs text-green-600 hover:text-green-700 underline cursor-pointer">Next.js</button>
-              <button onClick={() => { setRepoUrl("https://github.com/facebook/react"); setActiveTab(2) }}
+              <button onClick={() => { setRepoUrl("https://github.com/react/react"); setActiveTab(2) }}
                 className="text-xs text-green-600 hover:text-green-700 underline cursor-pointer">React</button>
               <button onClick={() => { setLiveLink("https://vercel.com"); setActiveTab(1) }}
                 className="text-xs text-green-600 hover:text-green-700 underline cursor-pointer">Vercel</button>
