@@ -12,6 +12,8 @@ import TechStack from "../components/TechStack"
 import useTechStack from "../hooks/useTechStack"
 import { useVibeCoding } from "../hooks/useVibeCoding"
 import { VibeScore } from "../components/VibeCoding"
+import Architecture from "../components/Architecture"
+import { useArchitecture } from "../hooks/useArchitecture"
 
 function AccordionItem({ icon, label, isOpen, onToggle, children, disabled = false}: {
   icon: React.ReactNode
@@ -65,6 +67,7 @@ const Analyze = () => {
   const { data: techStackData, loading: techStackLoading, error: techStackError, analyze: analyzeTechStack} = useTechStack()
   const { data: securityData, loading: securityLoading, error: securityError, analyze: analyzeSecurity } = useSecurity()
   const { data: vibeCodeData, loading: vibeCodeLoading, error: vibeCodeError, analyze: analyzeVibeCode } = useVibeCoding()
+  const { data: architectureData, loading: architectureLoading, error: architectureError, analyze: analyzeArchitecture } = useArchitecture()
 
   const parseGithubUrl = (url: string) => {
     try {
@@ -93,7 +96,8 @@ const Analyze = () => {
         analyzeRepo(parsed.owner, parsed.repo),
         analyzeSecurity(parsed.owner, parsed.repo),
         analyzeTechStack(parsed.owner, parsed.repo),
-        analyzeVibeCode(parsed.owner, parsed.repo)
+        analyzeVibeCode(parsed.owner, parsed.repo),
+        analyzeArchitecture(parsed.owner, parsed.repo)
       ])
       setOpenSection("repo-details")
        
@@ -107,7 +111,7 @@ const Analyze = () => {
   }
 
   const isValidInput = activeTab === 1 ? liveLink.trim() : repoUrl.trim()
-  const isLoading = isAnalyzing || repoLoading || securityLoading || liveLoading || techStackLoading || vibeCodeLoading
+  const isLoading = isAnalyzing || repoLoading || securityLoading || liveLoading || techStackLoading || vibeCodeLoading || architectureLoading
 
   return (
     <div>
@@ -194,9 +198,9 @@ const Analyze = () => {
           </button>
 
           
-          {(repoError || securityError || liveError || techStackError || vibeCodeError) && (
-            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-700 text-sm">{repoError || securityError || liveError || techStackError || vibeCodeError}</p>
+          {(repoError || securityError || liveError || techStackError || vibeCodeError || architectureError) && (
+            <div className="mt-4 p-4">
+              <p className="text-red-700 text-sm">{repoError || securityError || liveError || techStackError || vibeCodeError || architectureError}</p>
             </div>
           )}
  
@@ -250,8 +254,13 @@ const Analyze = () => {
                 label="Architecture Analysis"
                 isOpen={openSection === "architecture"}
                 onToggle={() => toggleSection("architecture")}
-                disabled
-              />
+              >
+                <Architecture
+                  data={architectureData}
+                  loading={architectureLoading}
+                  error={architectureError}
+                />
+              </AccordionItem>
 
               <AccordionItem
                 icon={<FileText className="w-4 h-4" />}
@@ -290,4 +299,3 @@ const Analyze = () => {
 }
 
 export default Analyze
-
