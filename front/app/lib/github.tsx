@@ -14,4 +14,4 @@ export async function fetchRepoDetails(owner: string, repo: string) {
   return res.json()
 }
 
- 
+  
