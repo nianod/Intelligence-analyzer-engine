@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from routers import repo, security, techStack
 from services import live, vibecode
+from routers import archtecture_analysis
 
 
 load_dotenv()
@@ -23,6 +24,7 @@ app.include_router(security.router)
 app.include_router(live.router)
 app.include_router(techStack.router)
 app.include_router(vibecode.router)
+app.include_router(archtecture_analysis.router)
 
 
 @app.get("/")
