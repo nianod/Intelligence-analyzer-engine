@@ -14,6 +14,8 @@ import { useAIFootprint } from "../hooks/useAIFootprint"
 import { AIFootprint } from "../components/AIFootprint"
 import Architecture from "../components/Architecture"
 import { useArchitecture } from "../hooks/useArchitecture"
+import { useDocsTests } from "../hooks/useCodetests"
+import DocsTests from "../components/DocTests"
 
 function AccordionItem({ icon, label, isOpen, onToggle, children, disabled = false}: {
   icon: React.ReactNode
@@ -68,6 +70,7 @@ const Analyze = () => {
   const { data: securityData, loading: securityLoading, error: securityError, analyze: analyzeSecurity } = useSecurity()
   const { data: aiFootprintData, loading: aiFootprintLoading, error: aiFootprintError, analyze: analyzeAIFootprint } = useAIFootprint()
   const { data: architectureData, loading: architectureLoading, error: architectureError, analyze: analyzeArchitecture } = useArchitecture()
+  const { data: doctestsData, loading: doctestsLoading, error: doctestsError, analyze: docTests } = useDocsTests()
 
   const parseGithubUrl = (url: string) => {
     try {
@@ -97,7 +100,8 @@ const Analyze = () => {
         analyzeSecurity(parsed.owner, parsed.repo),
         analyzeTechStack(parsed.owner, parsed.repo),
         analyzeAIFootprint(parsed.owner, parsed.repo),
-        analyzeArchitecture(parsed.owner, parsed.repo)
+        analyzeArchitecture(parsed.owner, parsed.repo),
+        docTests(parsed.owner, parsed.repo)
       ])
       setOpenSection("repo-details")
        
@@ -111,7 +115,7 @@ const Analyze = () => {
   }
 
   const isValidInput = activeTab === 1 ? liveLink.trim() : repoUrl.trim()
-  const isLoading = isAnalyzing || repoLoading || securityLoading || liveLoading || techStackLoading || aiFootprintLoading || architectureLoading
+  const isLoading = isAnalyzing || repoLoading || securityLoading || liveLoading || techStackLoading || aiFootprintLoading || architectureLoading || doctestsLoading
 
   return (
     <div>
@@ -198,9 +202,9 @@ const Analyze = () => {
           </button>
 
           
-          {(repoError || securityError || liveError || techStackError || aiFootprintError || architectureError) && (
+          {(repoError || securityError || liveError || techStackError || aiFootprintError || architectureError || doctestsError) && (
             <div className="mt-4 p-4">
-              <p className="text-red-700 text-sm">{repoError || securityError || liveError || techStackError || aiFootprintError || architectureError}</p>
+              <p className="text-red-700 text-sm">{repoError || securityError || liveError || techStackError || aiFootprintError || architectureError || doctestsError}</p>
             </div>
           )}
  
@@ -267,8 +271,12 @@ const Analyze = () => {
                 label="Documentation & Tests"
                 isOpen={openSection === "docs"}
                 onToggle={() => toggleSection("docs")}
-                disabled
-              />
+              >
+                <DocsTests data={doctestsData}
+                 loading={doctestsLoading}
+                 error={doctestsError}
+                />
+              </AccordionItem>
 
               <AccordionItem
                 icon={<Globe className="w-4 h-4" />}
