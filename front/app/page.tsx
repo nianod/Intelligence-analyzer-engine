@@ -96,7 +96,7 @@ export default function LandingPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Vibe Coding Score</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">AI Footprint</h3>
             <p className="text-gray-600">
               Proprietary 0–100% score measuring code organization, file sizes, duplication & consistency.
             </p>
@@ -190,7 +190,7 @@ export default function LandingPage() {
                 <span className="text-green-700 text-2xl font-bold">3</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Get detailed report</h3>
-              <p className="text-gray-500">Vibe Score, Hireability Score, roadmap & insights</p>
+              <p className="text-gray-500">AI Footprint, Hireability Score, roadmap & insights</p>
             </div>
           </div>
  
@@ -265,4 +265,3 @@ export default function LandingPage() {
     </div>
   );
 }
-

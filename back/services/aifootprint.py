@@ -6,7 +6,7 @@ import json
 from collections import defaultdict
 from routers.dependancies import get_headers, GITHUB_API
 
-router = APIRouter(prefix="/repo", tags=["Vibe Score"])
+router = APIRouter(prefix="/repo", tags=["AI Footprint"])
 
 
 MAX_FILES_TO_SCAN = 200
@@ -354,11 +354,11 @@ def check_structure(all_paths: set) -> dict:
     }
 
 
-@router.get("/{owner}/{repo}/vibescore")
-async def vibe_score(owner: str, repo: str):
+@router.get("/{owner}/{repo}/aifootprint")
+async def aifootprint(owner: str, repo: str):
     """
-    Analyze a repository for vibe coding patterns — AI-generated or carelessly
-    written code lacking structure, consistency, tests, and intentional design.
+    Assess a repository's structure, consistency, tests, and design practices
+    to estimate its AI footprint.
     """
     async with httpx.AsyncClient(timeout=30) as client:
         tree_res = await client.get(
@@ -481,26 +481,26 @@ async def vibe_score(owner: str, repo: str):
             structure_result["penalty"]
         )
 
-        vibe_score_value = max(0, 100 - total_penalty)
+        aifootprint_score = max(0, 100 - total_penalty)
 
         grade = (
-            "A" if vibe_score_value >= 85 else
-            "B" if vibe_score_value >= 70 else
-            "C" if vibe_score_value >= 55 else
-            "D" if vibe_score_value >= 40 else
+            "A" if aifootprint_score >= 85 else
+            "B" if aifootprint_score >= 70 else
+            "C" if aifootprint_score >= 55 else
+            "D" if aifootprint_score >= 40 else
             "F"
         )
 
         verdict = (
-            "Clean code" if vibe_score_value >= 85 else
-            "Mostly solid, some issues" if vibe_score_value >= 70 else
-            "Questionable quality" if vibe_score_value >= 55 else
-            "Heavy vibe coding detected" if vibe_score_value >= 40 else
-            "Pure vibe code — no structure, no tests, no discipline"
+            "Clean code" if aifootprint_score >= 85 else
+            "Mostly solid, some issues" if aifootprint_score >= 70 else
+            "Questionable quality" if aifootprint_score >= 55 else
+            "Significant AI footprint detected" if aifootprint_score >= 40 else
+            "High AI footprint — limited structure, testing, or design intent"
         )
 
         return {
-            "vibe_score": vibe_score_value,
+            "aifootprint_score": aifootprint_score,
             "grade": grade,
             "verdict": verdict,
             "files_analyzed": len(code_files),

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from routers import repo, security, techStack
-from services import live, vibecode
+from services import live, aifootprint
 from routers import archtecture_analysis
 
 
@@ -23,7 +23,7 @@ app.include_router(repo.router)
 app.include_router(security.router)
 app.include_router(live.router)
 app.include_router(techStack.router)
-app.include_router(vibecode.router)
+app.include_router(aifootprint.router)
 app.include_router(archtecture_analysis.router)
 
 
@@ -35,4 +35,3 @@ async def landing():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-

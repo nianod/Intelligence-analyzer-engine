@@ -19,8 +19,8 @@ interface CheckResult {
   readme_quality?: string
 }
 
-interface VibeScoreData {
-  vibe_score: number
+interface AIFootprintData {
+  aifootprint_score: number
   grade: string
   verdict: string
   files_analyzed: number
@@ -36,8 +36,8 @@ interface VibeScoreData {
   }
 }
 
-interface VibeScoreProps {
-  data: VibeScoreData | null
+interface AIFootprintProps {
+  data: AIFootprintData | null
 }
 
  
@@ -179,18 +179,18 @@ function CheckRow({
 
  
 
-export function VibeScore({ data }: VibeScoreProps) {
+export function AIFootprint({ data }: AIFootprintProps) {
 if (!data) {
   return (
     <p className="text-sm text-gray-400 py-4 text-center flex items-center gap-2 justify-center">
        <Loader2 className="animate-spin "/>
-      Vibe coding scan in progress...
+      AI footprint analysis in progress...
      
     </p>
   )
 }
 
-  const colors = getScoreColor(data.vibe_score)
+  const colors = getScoreColor(data.aifootprint_score)
   const gradeColors = getGradeColor(data.grade)
 
   const checkConfig = [
@@ -216,7 +216,7 @@ if (!data) {
         <div className="flex flex-col sm:flex-row items-center gap-6">
 
   
-          <ScoreRing score={data.vibe_score} />
+          <ScoreRing score={data.aifootprint_score} />
 
    
           <div className="flex-1 text-center sm:text-left">
@@ -235,15 +235,15 @@ if (!data) {
               <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div
                   className={`h-2 rounded-full transition-all duration-700 ${
-                    data.vibe_score >= 85 ? "bg-green-500" :
-                    data.vibe_score >= 70 ? "bg-blue-500" :
-                    data.vibe_score >= 55 ? "bg-yellow-500" :
-                    data.vibe_score >= 40 ? "bg-orange-500" : "bg-red-500"
+                    data.aifootprint_score >= 85 ? "bg-green-500" :
+                    data.aifootprint_score >= 70 ? "bg-blue-500" :
+                    data.aifootprint_score >= 55 ? "bg-yellow-500" :
+                    data.aifootprint_score >= 40 ? "bg-orange-500" : "bg-red-500"
                   }`}
-                  style={{ width: `${data.vibe_score}%` }}
+                  style={{ width: `${data.aifootprint_score}%` }}
                 />
               </div>
-              <span className="text-xs text-gray-400 shrink-0">{data.vibe_score}%</span>
+              <span className="text-xs text-gray-400 shrink-0">{data.aifootprint_score}%</span>
             </div>
           </div>
         </div>
@@ -274,8 +274,8 @@ if (!data) {
   
       <div className="rounded-lg border border-gray-100 bg-gray-50 px-4 py-3">
         <p className="text-xs text-gray-500 leading-relaxed">
-          <span className="font-semibold text-gray-700">What is vibe coding?</span>  Code that
-          looks like it works but lacks structure, consistency, tests, and intentional design.
+          <span className="font-semibold text-gray-700">What is an AI footprint?</span> An estimate
+          based on a codebase&apos;s structure, consistency, tests, and design practices.
           Security vurnerabilities
           Common in AI-generated codebases: massive files, mixed naming, no tests, hardcoded
           values, emoji-filled comments, and dependency overload.
@@ -285,4 +285,3 @@ if (!data) {
     </div>
   )
 }
-

@@ -1,7 +1,7 @@
 import { useState } from "react"
-import vibeCode from "../lib/vibeCode"
+import fetchAIFootprint from "../lib/aifootprint"
 
-export function useVibeCoding() {
+export function useAIFootprint() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -10,7 +10,7 @@ export function useVibeCoding() {
     setLoading(true)
     setError(null)
     try {
-      const result = await vibeCode(owner, repo)
+      const result = await fetchAIFootprint(owner, repo)
       setData(result)
     } catch (err: any) {
       setError(err.message)
@@ -21,4 +21,3 @@ export function useVibeCoding() {
 
   return { data, loading, error, analyze }
 }
-

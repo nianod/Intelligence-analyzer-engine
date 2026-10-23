@@ -1,7 +1,7 @@
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
-const vibeCode = async(owner: string, repo: string) => {
-    const response = await fetch(`${BASE_URL}/repo/${owner}/${repo}/vibescore`)
+const fetchAIFootprint = async(owner: string, repo: string) => {
+    const response = await fetch(`${BASE_URL}/repo/${owner}/${repo}/aifootprint`)
 
     if(!response.ok) {
         const error = await response.json()
@@ -11,6 +11,6 @@ const vibeCode = async(owner: string, repo: string) => {
     return response.json()
 }
 
-export default vibeCode
+export default fetchAIFootprint
 
  
