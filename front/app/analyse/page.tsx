@@ -10,8 +10,8 @@ import { SecurityResults } from "../components/Security"
 import Performance from "../components/Perfomance"
 import TechStack from "../components/TechStack"
 import useTechStack from "../hooks/useTechStack"
-import { useVibeCoding } from "../hooks/useVibeCoding"
-import { VibeScore } from "../components/VibeCoding"
+import { useAIFootprint } from "../hooks/useAIFootprint"
+import { AIFootprint } from "../components/AIFootprint"
 import Architecture from "../components/Architecture"
 import { useArchitecture } from "../hooks/useArchitecture"
 
@@ -66,7 +66,7 @@ const Analyze = () => {
   const { data: liveData, loading: liveLoading, error: liveError, analyze: analyzeLive } = useLive()
   const { data: techStackData, loading: techStackLoading, error: techStackError, analyze: analyzeTechStack} = useTechStack()
   const { data: securityData, loading: securityLoading, error: securityError, analyze: analyzeSecurity } = useSecurity()
-  const { data: vibeCodeData, loading: vibeCodeLoading, error: vibeCodeError, analyze: analyzeVibeCode } = useVibeCoding()
+  const { data: aiFootprintData, loading: aiFootprintLoading, error: aiFootprintError, analyze: analyzeAIFootprint } = useAIFootprint()
   const { data: architectureData, loading: architectureLoading, error: architectureError, analyze: analyzeArchitecture } = useArchitecture()
 
   const parseGithubUrl = (url: string) => {
@@ -96,7 +96,7 @@ const Analyze = () => {
         analyzeRepo(parsed.owner, parsed.repo),
         analyzeSecurity(parsed.owner, parsed.repo),
         analyzeTechStack(parsed.owner, parsed.repo),
-        analyzeVibeCode(parsed.owner, parsed.repo),
+        analyzeAIFootprint(parsed.owner, parsed.repo),
         analyzeArchitecture(parsed.owner, parsed.repo)
       ])
       setOpenSection("repo-details")
@@ -111,7 +111,7 @@ const Analyze = () => {
   }
 
   const isValidInput = activeTab === 1 ? liveLink.trim() : repoUrl.trim()
-  const isLoading = isAnalyzing || repoLoading || securityLoading || liveLoading || techStackLoading || vibeCodeLoading || architectureLoading
+  const isLoading = isAnalyzing || repoLoading || securityLoading || liveLoading || techStackLoading || aiFootprintLoading || architectureLoading
 
   return (
     <div>
@@ -198,9 +198,9 @@ const Analyze = () => {
           </button>
 
           
-          {(repoError || securityError || liveError || techStackError || vibeCodeError || architectureError) && (
+          {(repoError || securityError || liveError || techStackError || aiFootprintError || architectureError) && (
             <div className="mt-4 p-4">
-              <p className="text-red-700 text-sm">{repoError || securityError || liveError || techStackError || vibeCodeError || architectureError}</p>
+              <p className="text-red-700 text-sm">{repoError || securityError || liveError || techStackError || aiFootprintError || architectureError}</p>
             </div>
           )}
  
@@ -242,11 +242,11 @@ const Analyze = () => {
 
               <AccordionItem
                 icon={<Shield className="w-4 h-4" />}
-                label="Vibe Coding deteciton"
-                isOpen={openSection === "vibe-score"}
-                onToggle={() => toggleSection("vibe-score")}
+                label="AI Footprint"
+                isOpen={openSection === "ai-footprint"}
+                onToggle={() => toggleSection("ai-footprint")}
               >
-                <VibeScore data={vibeCodeData}/>
+                <AIFootprint data={aiFootprintData}/>
               </AccordionItem>
 
               <AccordionItem

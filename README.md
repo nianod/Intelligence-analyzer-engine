@@ -373,7 +373,7 @@ Results are displayed in an accordion for repo analysis, and rendered directly (
 
 ## Roadmap
 
-- [ ] **Vibe Coding Score** — proprietary 0–100 score measuring code organization, file sizes, duplication, and consistency
+- [ ] **AI Footprint** — proprietary 0–100 score measuring code organization, file sizes, duplication, and consistency
 - [ ] **Architecture Analysis** — monolith vs microservices inference, folder structure evaluation
 - [ ] **Documentation & Tests** — README quality scoring, test coverage estimation, testing framework detection
 - [ ] **Hireability Score** — recruiter-friendly metric combining all analysis dimensions

@@ -68,7 +68,7 @@ The app runs at `http://localhost:3000`.
 back/
   main.py          FastAPI app, middleware, router registration
   routers/         One file per repo analysis endpoint (repo, security, techstack, architecture)
-  services/        Logic that isn't a plain route (live link analysis, vibe coding)
+  services/        Logic that isn't a plain route (live link analysis, AI footprint)
 front/app/
   analyse/         Main analyze page
   components/      UI components (one per analysis feature)
